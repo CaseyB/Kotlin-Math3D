@@ -1,3 +1,9 @@
+@file:JvmName("Vector")
+
+package productions.moo.kotlin.math3d
+
+import productions.moo.kotlin.math.*
+
 // Override operators to work with Vector3
 operator fun Float.times (vector: Vector3) = Vector3(this * vector.x, this * vector.y, this * vector.z)
 operator fun Float.div (vector: Vector3) = Vector3(this / vector.x, this / vector.y, this / vector.z)
@@ -171,4 +177,10 @@ data class Vector2 (var x: Float, var y: Float)
         fun distanceSquaredFrom (vectors: Pair<Vector2, Vector2>) = (vectors.first - vectors.second).lengthSquared
     }
 }
+// endregion
+
+// region Matrix4
+// endregion
+
+// region Matrix3
 // endregion
