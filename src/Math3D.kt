@@ -19,7 +19,7 @@ data class Vector3 (var x: Float, var y: Float, var z: Float)
     operator fun div   (scalar: Float) = Vector3(x / scalar, y / scalar, z / scalar)
 
     val length: Float
-        get() = Math.sqrt((length).toDouble()).toFloat()
+        get() = Math.sqrt((lengthSquared).toDouble()).toFloat()
 
     val lengthSquared: Float
         get() = x * x + y * y + z * z
