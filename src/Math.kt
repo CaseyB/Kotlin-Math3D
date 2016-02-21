@@ -1,0 +1,1 @@
+fun Float.clamp (min: Float, max: Float) = Math.min(Math.max(this, min), max)
