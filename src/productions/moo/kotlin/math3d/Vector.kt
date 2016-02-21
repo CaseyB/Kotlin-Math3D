@@ -178,9 +178,3 @@ data class Vector2 (var x: Float, var y: Float)
     }
 }
 // endregion
-
-// region Matrix4
-// endregion
-
-// region Matrix3
-// endregion
