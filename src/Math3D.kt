@@ -83,6 +83,13 @@ data class Vector3 (var x: Float, var y: Float, var z: Float)
                 x * other.y - y * other.x)
     }
 
+    fun angleTo (other: Vector3): Angle
+    {
+        val lenProduct = length * other.length
+        val f = ((this dot other) / lenProduct).clamp(-1f, 1f)
+        return Angle(radians = Math.acos(f.toDouble()).toFloat())
+    }
+
     companion object
     {
         val ZERO = Vector3(0f, 0f, 0f)
@@ -99,6 +106,7 @@ data class Vector3 (var x: Float, var y: Float, var z: Float)
 
         fun distanceFrom (vectors: Pair<Vector3, Vector3>) = vectors.first.distanceFrom(vectors.second)
         fun distanceSquaredFrom (vectors: Pair<Vector3, Vector3>) = vectors.first.distanceSquaredFrom(vectors.second)
+        fun angleFrom (vectors: Pair<Vector3, Vector3>) = vectors.first.angleTo(vectors.second)
     }
 }
 // endregion
