@@ -6,6 +6,33 @@ operator fun Float.div (vector: Vector3) = Vector3(this / vector.x, this / vecto
 operator fun Float.times (vector: Vector2) = Vector2(this * vector.x, this * vector.y)
 operator fun Float.div (vector: Vector2) = Vector2(this / vector.x, this / vector.y)
 
+// Extend Float to deal with  degrees and radians
+class Angle(radians: Float? = null, degrees: Float? = null)
+{
+    var radians: Float = 0f
+        get() = field
+        set(radians) { field = radians }
+
+    var degrees: Float
+        get() = radians * RADIANS_TO_DEGREES
+        set(degrees) { radians = DEGREES_TO_RADIANS }
+
+    init {
+        when
+        {
+            radians != null -> this.radians = radians
+            degrees != null -> this.radians = degrees * (Math.PI / 180).toFloat()
+            else -> this.radians = 0f
+        }
+    }
+
+    companion object
+    {
+        val DEGREES_TO_RADIANS = (Math.PI / 180.0).toFloat()
+        val RADIANS_TO_DEGREES = (180.0 / Math.PI).toFloat()
+    }
+}
+
 // region Vector3
 data class Vector3 (var x: Float, var y: Float, var z: Float)
 {
