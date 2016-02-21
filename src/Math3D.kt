@@ -70,8 +70,8 @@ data class Vector3 (var x: Float, var y: Float, var z: Float)
         
         val UNIT_SCALE = Vector3(1f, 1f, 1f)
 
-        fun distanceFrom (vectors: Pair<Vector3, Vector3>) = (vectors.first - vectors.second).length
-        fun distanceSquaredFrom (vectors: Pair<Vector3, Vector3>) = (vectors.first - vectors.second).lengthSquared
+        fun distanceFrom (vectors: Pair<Vector3, Vector3>) = vectors.first.distanceFrom(vectors.second)
+        fun distanceSquaredFrom (vectors: Pair<Vector3, Vector3>) = vectors.first.distanceSquaredFrom(vectors.second)
     }
 }
 // endregion
