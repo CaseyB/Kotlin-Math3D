@@ -30,6 +30,9 @@ class Matrix4
         _values[15] = m33
     }
 
+    operator fun get (index: Int) = _values[index]
+    operator fun get (row: Int, column: Int) = _values[row * 4 + column]
+
     companion object
     {
         val ZERO = Matrix4 (
