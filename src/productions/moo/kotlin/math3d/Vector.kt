@@ -4,6 +4,7 @@ package productions.moo.kotlin.math3d
 
 import productions.moo.kotlin.math.*
 
+// region Float extensions
 // Override operators to work with Vector3
 operator fun Float.times (vector: Vector3) = Vector3(this * vector.x, this * vector.y, this * vector.z)
 operator fun Float.div (vector: Vector3) = Vector3(this / vector.x, this / vector.y, this / vector.z)
@@ -11,6 +12,7 @@ operator fun Float.div (vector: Vector3) = Vector3(this / vector.x, this / vecto
 // Override operators to work with Vector2
 operator fun Float.times (vector: Vector2) = Vector2(this * vector.x, this * vector.y)
 operator fun Float.div (vector: Vector2) = Vector2(this / vector.x, this / vector.y)
+// endregion
 
 // region Vector3
 data class Vector3 (var x: Float, var y: Float, var z: Float)
