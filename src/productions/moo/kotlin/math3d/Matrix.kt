@@ -33,6 +33,31 @@ class Matrix4
     operator fun get (index: Int) = _values[index]
     operator fun get (row: Int, column: Int) = _values[row * 4 + column]
 
+    fun concatenate(other: Matrix4): Matrix4
+    {
+        return Matrix4(
+            _values[ 0] * other[ 0] + _values[ 1] * other[ 4] + _values[ 2] * other[ 8] + _values[ 3] * other[12],
+            _values[ 0] * other[ 1] + _values[ 1] * other[ 5] + _values[ 2] * other[ 9] + _values[ 3] * other[13],
+            _values[ 0] * other[ 2] + _values[ 1] * other[ 6] + _values[ 2] * other[10] + _values[ 3] * other[14],
+            _values[ 0] * other[ 3] + _values[ 1] * other[ 7] + _values[ 2] * other[11] + _values[ 3] * other[15],
+        
+            _values[ 4] * other[ 0] + _values[ 5] * other[ 4] + _values[ 6] * other[ 8] + _values[ 7] * other[12],
+            _values[ 4] * other[ 1] + _values[ 5] * other[ 5] + _values[ 6] * other[ 9] + _values[ 7] * other[13],
+            _values[ 4] * other[ 2] + _values[ 5] * other[ 6] + _values[ 6] * other[10] + _values[ 7] * other[14],
+            _values[ 4] * other[ 3] + _values[ 5] * other[ 7] + _values[ 6] * other[11] + _values[ 7] * other[15],
+        
+            _values[ 8] * other[ 0] + _values[ 9] * other[ 4] + _values[10] * other[ 8] + _values[11] * other[12],
+            _values[ 8] * other[ 1] + _values[ 9] * other[ 5] + _values[10] * other[ 9] + _values[11] * other[13],
+            _values[ 8] * other[ 2] + _values[ 9] * other[ 6] + _values[10] * other[10] + _values[11] * other[14],
+            _values[ 8] * other[ 3] + _values[ 9] * other[ 7] + _values[10] * other[11] + _values[11] * other[15],
+        
+            _values[12] * other[ 0] + _values[13] * other[ 4] + _values[14] * other[ 8] + _values[15] * other[12],
+            _values[12] * other[ 1] + _values[13] * other[ 5] + _values[14] * other[ 9] + _values[15] * other[13],
+            _values[12] * other[ 2] + _values[13] * other[ 6] + _values[14] * other[10] + _values[15] * other[14],
+            _values[12] * other[ 3] + _values[13] * other[ 7] + _values[14] * other[11] + _values[15] * other[15]
+        )
+    }
+
     companion object
     {
         val ZERO = Matrix4 (
