@@ -39,5 +39,7 @@ class Game
 
 			window.postRender()
 		}
+
+		window.destroy()
 	}
 }
