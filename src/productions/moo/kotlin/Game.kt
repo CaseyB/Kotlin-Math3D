@@ -11,7 +11,7 @@ class Game
 
 	inner class KeyHandler : KeyDelegate
 	{
-		override fun keyEvent(key: Int, scanCode: Int, action: Int, mod: Int)
+		override fun keyEvent(key: Int, scanCode: Int, action: Int, mods: Int)
 		{
 			if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE)
 			{

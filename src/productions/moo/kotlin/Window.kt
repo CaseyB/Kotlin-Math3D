@@ -7,7 +7,7 @@ import org.lwjgl.glfw.GLFWWindowSizeCallback
 
 interface KeyDelegate
 {
-	fun keyEvent (key: Int, scanCode: Int, action: Int, mod: Int)
+	fun keyEvent(key: Int, scanCode: Int, action: Int, mods: Int)
 }
 
 interface WindowDelegate
@@ -50,9 +50,9 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 
 		_keyCallback = object : GLFWKeyCallback()
 		{
-			override fun invoke(window: kotlin.Long, key: kotlin.Int, scancode: kotlin.Int, action: kotlin.Int, mod: kotlin.Int)
+			override fun invoke(window: kotlin.Long, key: kotlin.Int, scancode: kotlin.Int, action: kotlin.Int, mods: kotlin.Int)
 			{
-				keyDelegate?.keyEvent(key, scancode, action, mod)
+				keyDelegate?.keyEvent(key, scancode, action, mods)
 			}
 		}
 		GLFW.glfwSetKeyCallback(_window, _keyCallback)
