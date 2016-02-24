@@ -9,6 +9,9 @@ class Game
 	lateinit var window: Window
 	var running = true
 
+	val colors = listOf(Color.CORNFLOWER_BLUE, Color.RED, Color.GREEN, Color.BLUE)
+	var currentColor = 0
+
 	inner class KeyHandler : KeyDelegate
 	{
 		override fun keyEvent(key: Int, scanCode: Int, state: ButtonState, mods: Int)
@@ -16,6 +19,25 @@ class Game
 			if (key == GLFW.GLFW_KEY_ESCAPE && state == ButtonState.RELEASE)
 			{
 				running = false
+			}
+			else if ((key == GLFW.GLFW_KEY_LEFT || key == GLFW.GLFW_KEY_RIGHT) && state == ButtonState.PRESS)
+			{
+				if (key == GLFW.GLFW_KEY_LEFT)
+				{
+					currentColor--
+				}
+				else
+				{
+					currentColor++
+				}
+
+				currentColor = (currentColor % colors.size)
+				if(currentColor < 0)
+				{
+					currentColor = 3
+				}
+				val color = colors[currentColor]
+				GL11.glClearColor(color.red, color.green, color.blue, color.alpha)
 			}
 		}
 	}
