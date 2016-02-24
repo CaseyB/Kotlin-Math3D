@@ -3,22 +3,29 @@ package productions.moo.kotlin
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.glfw.GLFWKeyCallback
+import org.lwjgl.glfw.GLFWWindowSizeCallback
 
 interface KeyDelegate
 {
-	fun keyEvent(key: Int, scanCode: Int, action: Int, mod: Int)
+	fun keyEvent (key: Int, scanCode: Int, action: Int, mod: Int)
+}
+
+interface WindowDelegate
+{
+	fun resize (width: Int, height: Int)
 }
 
 class Window(var title: String? = null, var width: Int = 800, var height: Int = 600) : Renderable
 {
 	var keyDelegate: KeyDelegate? = null
+	var windowDelegate: WindowDelegate? = null
 
 	val shouldClose: Boolean
 		get() = GLFW.glfwWindowShouldClose(_window) == GLFW.GLFW_TRUE
 
 	private val _errorCallback: GLFWErrorCallback
 	private val _keyCallback: GLFWKeyCallback
-
+	private val _windowSizeCallback: GLFWWindowSizeCallback
 	private val _window: Long
 
 	init
@@ -49,6 +56,19 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 			}
 		}
 		GLFW.glfwSetKeyCallback(_window, _keyCallback)
+
+		_windowSizeCallback = object : GLFWWindowSizeCallback()
+		{
+			override fun invoke(window: kotlin.Long, newWidth: kotlin.Int, newHeight: kotlin.Int)
+			{
+				width = newWidth
+				height = newHeight
+
+				windowDelegate?.resize(width, height)
+			}
+
+		}
+		GLFW.glfwSetWindowSizeCallback(_window, _windowSizeCallback)
 
 		// Get the resolution of the primary monitor
 		val vidmode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor())

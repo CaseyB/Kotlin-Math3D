@@ -18,13 +18,21 @@ class Game
 				running = false
 			}
 		}
+	}
 
+	inner class WindowHandler : WindowDelegate
+	{
+		override fun resize(width: Int, height: Int)
+		{
+			println("Window Resize ($width, $height)")
+		}
 	}
 
 	init
 	{
 		window = Window("Woot")
 		window.keyDelegate = KeyHandler()
+		window.windowDelegate = WindowHandler()
 
 		GL.createCapabilities()
 
