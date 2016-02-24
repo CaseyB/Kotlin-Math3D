@@ -8,15 +8,38 @@ import org.lwjgl.glfw.GLFWKeyCallback
 import org.lwjgl.glfw.GLFWMouseButtonCallback
 import org.lwjgl.glfw.GLFWWindowSizeCallback
 
+enum class ButtonState
+{
+	PRESS,
+	RELEASE,
+	REPEAT;
+
+	companion object
+	{
+		internal fun fromAction(action: Int): ButtonState
+		{
+			var state: ButtonState = PRESS
+			when (action)
+			{
+				GLFW.GLFW_PRESS   -> state = PRESS
+				GLFW.GLFW_RELEASE -> state = RELEASE
+				GLFW.GLFW_REPEAT  -> state = REPEAT
+			}
+
+			return state
+		}
+	}
+}
+
 interface KeyDelegate
 {
-	fun keyEvent(key: Int, scanCode: Int, action: Int, mods: Int)
+	fun keyEvent(key: Int, scanCode: Int, state: ButtonState, mods: Int)
 }
 
 interface MouseDelegate
 {
 	fun positionEvent(x: Float, y: Float)
-	fun buttonEvent(button: Int, action: Int, mods: Int)
+	fun buttonEvent(button: Int, state: ButtonState, mods: Int)
 }
 
 interface WindowDelegate
@@ -41,7 +64,7 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 	private val _mouseButtonCallback: GLFWMouseButtonCallback
 
 	private var _mouseInWindow = false
-	
+
 	private val _windowSizeCallback: GLFWWindowSizeCallback
 
 	private val _window: Long
@@ -70,7 +93,7 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 		{
 			override fun invoke(window: kotlin.Long, key: kotlin.Int, scancode: kotlin.Int, action: kotlin.Int, mods: kotlin.Int)
 			{
-				keyDelegate?.keyEvent(key, scancode, action, mods)
+				keyDelegate?.keyEvent(key, scancode, ButtonState.fromAction(action), mods)
 			}
 		}
 		GLFW.glfwSetKeyCallback(_window, _keyCallback)
@@ -114,7 +137,7 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 			{
 				if (_mouseInWindow)
 				{
-					mouseDelegate?.buttonEvent(button, action, mods)
+					mouseDelegate?.buttonEvent(button, ButtonState.fromAction(action), mods)
 				}
 			}
 		}

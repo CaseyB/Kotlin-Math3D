@@ -11,9 +11,9 @@ class Game
 
 	inner class KeyHandler : KeyDelegate
 	{
-		override fun keyEvent(key: Int, scanCode: Int, action: Int, mods: Int)
+		override fun keyEvent(key: Int, scanCode: Int, state: ButtonState, mods: Int)
 		{
-			if (key == GLFW.GLFW_KEY_ESCAPE && action == GLFW.GLFW_RELEASE)
+			if (key == GLFW.GLFW_KEY_ESCAPE && state == ButtonState.RELEASE)
 			{
 				running = false
 			}
@@ -35,9 +35,9 @@ class Game
 			println("Mouse Move ($x, $y)")
 		}
 
-		override fun buttonEvent(button: Int, action: Int, mods: Int)
+		override fun buttonEvent(button: Int, state: ButtonState, mods: Int)
 		{
-			println("Mouse Button: $button, $action, $mods")
+			println("Mouse Button: $button, $state, $mods")
 		}
 	}
 
