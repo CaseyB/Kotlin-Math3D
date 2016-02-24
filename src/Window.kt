@@ -3,6 +3,7 @@ import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.glfw.GLFWKeyCallback
 import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL11
+import productions.moo.kotlin.Color
 
 class Window(var title: String? = null, var width: Int = 800, var height: Int = 600)
 {
@@ -72,7 +73,8 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
     {
         GL.createCapabilities()
 
-        GL11.glClearColor(0.392f, 0.5843f, 0.9294f, 1.0f)
+        val color = Color.CORNFLOWER_BLUE
+        GL11.glClearColor(color.red, color.green, color.blue, color.alpha)
 
         while (GLFW.glfwWindowShouldClose(_window) == GLFW.GLFW_FALSE)
         {
