@@ -4,7 +4,7 @@ import org.lwjgl.glfw.GLFWKeyCallback
 import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL11
 
-class Window
+class Window(var title: String? = null, var width: Int = 800, var height: Int = 600)
 {
     private val _errorCallback: GLFWErrorCallback
     private val _keyCallback: GLFWKeyCallback
@@ -25,7 +25,7 @@ class Window
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE)
         GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE)
 
-        _window = GLFW.glfwCreateWindow(300, 300, "Some Game", 0, 0)
+        _window = GLFW.glfwCreateWindow(width, height, title ?: "", 0, 0)
         if (_window == 0L)
         {
             throw RuntimeException("Failed to create window")
@@ -46,7 +46,7 @@ class Window
         // Get the resolution of the primary monitor
         val vidmode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor())
         // Center our window
-        GLFW.glfwSetWindowPos(_window, (vidmode.width() - 300) / 2, (vidmode.height() - 300) / 2)
+        GLFW.glfwSetWindowPos(_window, (vidmode.width() - width) / 2, (vidmode.height() - height) / 2)
 
         // Make the OpenGL context current
         GLFW.glfwMakeContextCurrent(_window)
