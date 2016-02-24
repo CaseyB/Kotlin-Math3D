@@ -31,7 +31,7 @@ class Game
 		val color = Color.CORNFLOWER_BLUE
 		GL11.glClearColor(color.red, color.green, color.blue, color.alpha)
 
-		while (running and !window.shouldClose())
+		while (running and !window.shouldClose)
 		{
 			window.preRender()
 

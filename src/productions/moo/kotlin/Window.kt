@@ -13,6 +13,9 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 {
 	var keyDelegate: KeyDelegate? = null
 
+	val shouldClose: Boolean
+		get() = GLFW.glfwWindowShouldClose(_window) == GLFW.GLFW_TRUE
+
 	private val _errorCallback: GLFWErrorCallback
 	private val _keyCallback: GLFWKeyCallback
 
@@ -69,8 +72,6 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 		GLFW.glfwTerminate()
 		_errorCallback.release()
 	}
-
-	fun shouldClose() = GLFW.glfwWindowShouldClose(_window) == GLFW.GLFW_TRUE
 
 	override fun preRender()
 	{
