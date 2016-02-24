@@ -28,11 +28,25 @@ class Game
 		}
 	}
 
+	inner class MouseHandler : MouseDelegate
+	{
+		override fun positionEvent(x: Float, y: Float)
+		{
+			println("Mouse Move ($x, $y)")
+		}
+
+		override fun buttonEvent(button: Int, action: Int, mods: Int)
+		{
+			println("Mouse Button: $button, $action, $mods")
+		}
+	}
+
 	init
 	{
 		window = Window("Woot")
 		window.keyDelegate = KeyHandler()
 		window.windowDelegate = WindowHandler()
+		window.mouseDelegate = MouseHandler()
 
 		GL.createCapabilities()
 
