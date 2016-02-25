@@ -70,9 +70,9 @@ class Game
 
 	init
 	{
-		window = Window("Woot")
-		window.keyDelegate = KeyHandler()
+		window = Window("Woot", 800, 800)
 		window.windowDelegate = WindowHandler()
+		window.keyDelegate = KeyHandler()
 		window.mouseDelegate = MouseHandler()
 
 		renderer = GLRenderer.getInstance() ?: throw RuntimeException ("Failed to create OpenGL Renderer")
