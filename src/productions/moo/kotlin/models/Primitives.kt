@@ -8,6 +8,15 @@ class Mesh(var verticies: Array<Vector3>? = null, var indicies: Array<Int>? = nu
 {
 }
 
+val UNIT_TRIANLGE = Mesh(
+		arrayOf(
+				Vector3(-0.5f, -0.5f, 0.0f),
+				Vector3(0.0f, 0.5f, 0.0f),
+				Vector3(0.5f, -0.5f, 0.0f)
+		),
+		arrayOf(0, 1, 2)
+)
+
 val UNIT_PLANE = Mesh(
 		arrayOf(
 				Vector3(-0.5f, -0.5f, 0.0f),
@@ -15,4 +24,5 @@ val UNIT_PLANE = Mesh(
 				Vector3(0.5f, 0.5f, 0.0f),
 				Vector3(0.5f, -0.5f, 0.0f)
 		),
-		arrayOf(0, 1, 2, 3))
+		arrayOf(0, 1, 2, 3)
+)
