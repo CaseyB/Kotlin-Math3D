@@ -19,6 +19,7 @@ class Game
 	{
 		override fun keyEvent(key: Int, scanCode: Int, state: ButtonState, mods: Int)
 		{
+			// TODO: Abstract out key codes
 			if (key == GLFW.GLFW_KEY_ESCAPE && state == ButtonState.RELEASE)
 			{
 				running = false
@@ -80,10 +81,13 @@ class Game
 
 		val pyramid = UNIT_PYRAMID
 		pyramid.position = Vector3(0f, 0f, -5f)
+
+		// TODO: Meshes shouldn't be added directly to the renderer, they should be attached to the scenegraph
 		renderer.addMesh(pyramid)
 
 		while (running and !window.shouldClose)
 		{
+			// TODO: Have a list of renderables and just loop through and call their render functions
 			window.preRender()
 
 			renderer.render()
