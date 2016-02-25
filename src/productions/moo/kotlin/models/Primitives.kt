@@ -25,5 +25,23 @@ val UNIT_PLANE = Mesh(
 				Vector3(0.5f, 0.5f, 0.0f),
 				Vector3(0.5f, -0.5f, 0.0f)
 		),
-		arrayOf(0, 1, 2, 3)
+		arrayOf(0, 1, 2, 2, 3, 0)
+)
+
+val UNIT_PYRAMID = Mesh(
+		arrayOf(
+				Vector3(0.0f, 0.5f, 0.0f),
+				Vector3(-0.5f, -0.5f, 0.5f),
+				Vector3(-0.5f, -0.5f, -0.5f),
+				Vector3(0.5f, -0.5f, -0.5f),
+				Vector3(0.5f, -0.5f, 0.5f)
+		),
+		arrayOf(1, 0, 4, 2, 0, 1, 3, 0, 2, 4, 0, 3, 1, 4, 2, 2, 4, 3),
+		arrayOf(
+				Color.RED,
+				Color.GREEN,
+				Color.BLUE,
+				Color.WHITE,
+				Color.BLACK
+		)
 )

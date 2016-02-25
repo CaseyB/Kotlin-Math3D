@@ -51,7 +51,7 @@ class Game
 	{
 		override fun resize(width: Int, height: Int)
 		{
-			//println("Window Resize ($width, $height)")
+			renderer.resize(width, height)
 		}
 	}
 
