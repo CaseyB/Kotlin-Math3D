@@ -1,4 +1,4 @@
-import productions.moo.kotlin.Game
+import Game
 
 fun main (args: Array<String>)
 {

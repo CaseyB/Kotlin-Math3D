@@ -2,14 +2,12 @@ package productions.moo.kotlin.renderers
 
 import org.lwjgl.opengl.GL11
 import productions.moo.kotlin.Color
+import productions.moo.kotlin.Node
 import productions.moo.kotlin.math.Angle
 import productions.moo.kotlin.models.Mesh
 
 class GL11Renderer : GLRenderer()
 {
-	private val meshes: MutableList<Mesh> = arrayListOf()
-	private var rot: Float = 0f
-
 	override fun initialize(width: Int, height: Int)
 	{
 		resize(width, height)
@@ -35,16 +33,18 @@ class GL11Renderer : GLRenderer()
 		val aspect = width / height.toDouble()
 		val fov = Angle(degrees = 45f)
 
-		perspective(fov.degrees.toDouble(), aspect, near, far)
+		val fH = Math.tan(fov.radians.toDouble()) * near
+		val fW = fH * aspect
+		GL11.glFrustum(-fW, fW, -fH, fH, near, far);
+
+
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
 	}
 
 	private fun perspective(fovY: Double, aspect: Double, near: Double, far: Double)
 	{
-		val fH = Math.tan(fovY / 360.0 * Math.PI) * near
-		val fW = fH * aspect
-		GL11.glFrustum(-fW, fW, -fH, fH, near, far);
+
 	}
 
 	override fun setClearColor(color: Color)
@@ -52,21 +52,23 @@ class GL11Renderer : GLRenderer()
 		GL11.glClearColor(color.red, color.green, color.blue, color.alpha)
 	}
 
-	override fun addMesh(mesh: Mesh)
-	{
-		meshes.add(mesh)
-	}
-
 	override fun render()
 	{
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
 
-		for (mesh in meshes)
-		{
-			GL11.glLoadIdentity()
-			GL11.glTranslatef(mesh.position.x, mesh.position.y, mesh.position.z)
-			GL11.glRotatef(rot, 1f, 1f, 1f)
+		// Recursively render root node
+		renderNode(rootNode)
+	}
 
+	private fun renderNode(node: Node)
+	{
+		GL11.glPushMatrix()
+
+		GL11.glTranslatef(node.position.x, node.position.y, node.position.z)
+
+		// Render meshes
+		for (mesh in node.meshes)
+		{
 			mesh.indicies?.let {
 				GL11.glBegin(GL11.GL_TRIANGLES)
 
@@ -87,6 +89,12 @@ class GL11Renderer : GLRenderer()
 			}
 		}
 
-		rot += 0.25f
+		// Render children
+		for (child in node.children)
+		{
+			renderNode(child)
+		}
+
+		GL11.glPopMatrix()
 	}
 }

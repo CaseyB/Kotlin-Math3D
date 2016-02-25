@@ -7,8 +7,6 @@ import productions.moo.kotlin.math3d.Vector3
 // TODO: This constructor is UGLY!
 class Mesh(var verticies: Array<Vector3>? = null, var indicies: Array<Int>? = null, var vertexColors: Array<Color>? = null, var textureCoords: Array<Vector2>? = null)
 {
-	// TODO: Mesh position should be determined by a node in the scenegraph
-	var position = Vector3.ZERO
 }
 
 val UNIT_TRIANLGE = Mesh(
