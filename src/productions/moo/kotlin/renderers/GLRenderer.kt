@@ -23,6 +23,8 @@ abstract class GLRenderer: Renderable
 		}
 	}
 
+	abstract fun initialize(width: Int, height: Int)
+	abstract fun resize(width: Int, height: Int)
 	abstract fun setClearColor(color: Color)
 	abstract fun addMesh(mesh: Mesh);
 }

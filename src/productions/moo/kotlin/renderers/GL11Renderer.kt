@@ -2,12 +2,51 @@ package productions.moo.kotlin.renderers
 
 import org.lwjgl.opengl.GL11
 import productions.moo.kotlin.Color
+import productions.moo.kotlin.math.Angle
 import productions.moo.kotlin.models.Mesh
+import javax.jnlp.DownloadService
 
 class GL11Renderer : GLRenderer()
 {
 	private val meshes: MutableList<Mesh> = arrayListOf()
 	private var rot: Float = 0f
+
+	override fun initialize(width: Int, height: Int)
+	{
+		resize(width, height)
+
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glClearDepth(1.0);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthFunc(GL11.GL_LEQUAL);
+		GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
+	}
+
+	override fun resize(width: Int, height: Int)
+	{
+		// TODO: I don't really understand why the pyramid isn't in the middle
+		val near = 0.1
+		val far = 100.0
+
+		GL11.glViewport(0, 0, width, height);
+
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+
+		val aspect = width / height.toDouble()
+		val fov = Angle(degrees = 45f)
+
+		perspective(fov.degrees.toDouble(), aspect, near, far)
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		GL11.glLoadIdentity();
+	}
+
+	private fun perspective(fovY: Double, aspect: Double, near: Double, far: Double)
+	{
+		val fH = Math.tan(fovY / 360.0 * Math.PI) * near
+		val fW = fH * aspect
+		GL11.glFrustum(-fW, fW, -fH, fH, near, far);
+	}
 
 	override fun setClearColor(color: Color)
 	{
@@ -30,7 +69,7 @@ class GL11Renderer : GLRenderer()
 			GL11.glRotatef(rot, 1f, 1f, 1f)
 
 			mesh.indicies?.let {
-				GL11.glBegin(GL11.GL_TRIANGLE_FAN)
+				GL11.glBegin(GL11.GL_TRIANGLES)
 
 				for (index in it)
 				{
