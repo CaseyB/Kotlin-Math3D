@@ -48,7 +48,7 @@ class Game
 	{
 		override fun resize(width: Int, height: Int)
 		{
-			println("Window Resize ($width, $height)")
+			//println("Window Resize ($width, $height)")
 		}
 	}
 
@@ -56,12 +56,12 @@ class Game
 	{
 		override fun positionEvent(x: Float, y: Float)
 		{
-			println("Mouse Move ($x, $y)")
+			//println("Mouse Move ($x, $y)")
 		}
 
 		override fun buttonEvent(button: Int, state: ButtonState, mods: Int)
 		{
-			println("Mouse Button: $button, $state, $mods")
+			//println("Mouse Button: $button, $state, $mods")
 		}
 	}
 
