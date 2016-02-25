@@ -32,7 +32,7 @@ class Game
 				}
 
 				currentColor = (currentColor % colors.size)
-				if(currentColor < 0)
+				if (currentColor < 0)
 				{
 					currentColor = 3
 				}
