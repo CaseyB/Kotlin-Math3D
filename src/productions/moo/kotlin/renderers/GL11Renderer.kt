@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11
 import productions.moo.kotlin.Color
 import productions.moo.kotlin.math.Angle
 import productions.moo.kotlin.models.Mesh
-import javax.jnlp.DownloadService
 
 class GL11Renderer : GLRenderer()
 {

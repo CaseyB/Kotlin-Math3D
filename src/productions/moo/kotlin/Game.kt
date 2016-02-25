@@ -2,9 +2,7 @@ package productions.moo.kotlin
 
 import org.lwjgl.glfw.GLFW
 import productions.moo.kotlin.math3d.Vector3
-import productions.moo.kotlin.models.UNIT_PLANE
 import productions.moo.kotlin.models.UNIT_PYRAMID
-import productions.moo.kotlin.models.UNIT_TRIANLGE
 import productions.moo.kotlin.renderers.GLRenderer
 
 class Game
