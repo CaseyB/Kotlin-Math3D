@@ -19,18 +19,19 @@ class GL11Renderer : GLRenderer()
 		meshes.add(mesh)
 	}
 
-	override fun render ()
+	override fun render()
 	{
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
-		GL11.glLoadIdentity()
-
-		GL11.glRotatef(rot, 1f, 1f, 1f)
-
-		GL11.glBegin(GL11.GL_TRIANGLE_FAN)
 
 		for (mesh in meshes)
 		{
+			GL11.glLoadIdentity()
+			GL11.glTranslatef(mesh.position.x, mesh.position.y, mesh.position.z)
+			GL11.glRotatef(rot, 1f, 1f, 1f)
+
 			mesh.indicies?.let {
+				GL11.glBegin(GL11.GL_TRIANGLE_FAN)
+
 				for (index in it)
 				{
 					mesh.vertexColors?.let {
@@ -43,10 +44,10 @@ class GL11Renderer : GLRenderer()
 						GL11.glVertex3f(vec.x, vec.y, vec.z)
 					}
 				}
+
+				GL11.glEnd()
 			}
 		}
-
-		GL11.glEnd()
 
 		rot += 0.25f
 	}
