@@ -1,6 +1,11 @@
-package productions.moo.kotlin
-
 import org.lwjgl.glfw.GLFW
+import productions.moo.kotlin.ButtonState
+import productions.moo.kotlin.Color
+import productions.moo.kotlin.KeyDelegate
+import productions.moo.kotlin.MouseDelegate
+import productions.moo.kotlin.Node
+import productions.moo.kotlin.Window
+import productions.moo.kotlin.WindowDelegate
 import productions.moo.kotlin.math3d.Vector3
 import productions.moo.kotlin.models.UNIT_PYRAMID
 import productions.moo.kotlin.renderers.GLRenderer
@@ -51,6 +56,7 @@ class Game
 	{
 		override fun resize(width: Int, height: Int)
 		{
+			println("Resize: ($width, $height)")
 			renderer.resize(width, height)
 		}
 	}
@@ -70,7 +76,7 @@ class Game
 
 	init
 	{
-		window = Window("Woot", 800, 800)
+		window = Window("Woot", 300, 300)
 		window.windowDelegate = WindowHandler()
 		window.keyDelegate = KeyHandler()
 		window.mouseDelegate = MouseHandler()
@@ -79,11 +85,18 @@ class Game
 		renderer.initialize(800, 800)
 		renderer.setClearColor(Color.CORNFLOWER_BLUE)
 
-		val pyramid = UNIT_PYRAMID
-		pyramid.position = Vector3(0f, 0f, -5f)
+		val middle = Node(Vector3(0f, 0f, -5f))
+		middle.addMesh(UNIT_PYRAMID)
 
-		// TODO: Meshes shouldn't be added directly to the renderer, they should be attached to the scenegraph
-		renderer.addMesh(pyramid)
+		val right = Node(Vector3(2f, 0f, 0f))
+		right.addMesh(UNIT_PYRAMID)
+		middle.addChild(right)
+
+		val left = Node(Vector3(-2f, 0f, 0f))
+		left.addMesh(UNIT_PYRAMID)
+		middle.addChild(left)
+
+		renderer.rootNode.addChild(middle)
 
 		while (running and !window.shouldClose)
 		{
