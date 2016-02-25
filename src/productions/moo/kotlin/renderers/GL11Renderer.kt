@@ -28,15 +28,21 @@ class GL11Renderer : GLRenderer()
 
 		GL11.glBegin(GL11.GL_TRIANGLE_FAN)
 
-		for (mesh in meshes!!)
+		for (mesh in meshes)
 		{
-			for (index in mesh.indicies!!)
-			{
-				val vec = mesh.verticies!![index]
-				val color = mesh.vertexColors!![index]
+			mesh.indicies?.let {
+				for (index in it)
+				{
+					mesh.vertexColors?.let {
+						val color = it[index]
+						GL11.glColor3f(color.red, color.green, color.blue)
+					}
 
-				GL11.glColor3f(color.red, color.green, color.blue)
-				GL11.glVertex3f(vec.x, vec.y, vec.z)
+					mesh.verticies?.let {
+						val vec = it[index]
+						GL11.glVertex3f(vec.x, vec.y, vec.z)
+					}
+				}
 			}
 		}
 
