@@ -6,7 +6,7 @@ import productions.moo.kotlin.models.Mesh
 
 class GL11Renderer : GLRenderer()
 {
-	private var meshes: Array<Mesh>? = null
+	private val meshes: MutableList<Mesh> = arrayListOf()
 	private var rot: Float = 0f
 
 	override fun setClearColor(color: Color)
@@ -16,7 +16,7 @@ class GL11Renderer : GLRenderer()
 
 	override fun addMesh(mesh: Mesh)
 	{
-		meshes = arrayOf(mesh)
+		meshes.add(mesh)
 	}
 
 	override fun render ()
