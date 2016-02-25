@@ -1,12 +1,13 @@
 package productions.moo.kotlin
 
 import org.lwjgl.glfw.GLFW
-import org.lwjgl.opengl.GL
-import org.lwjgl.opengl.GL11
+import productions.moo.kotlin.renderers.GLRenderer
 
 class Game
 {
 	val window: Window
+	val renderer: GLRenderer
+
 	var running = true
 
 	val colors = listOf(Color.CORNFLOWER_BLUE, Color.RED, Color.GREEN, Color.BLUE)
@@ -37,7 +38,8 @@ class Game
 					currentColor = 3
 				}
 				val color = colors[currentColor]
-				GL11.glClearColor(color.red, color.green, color.blue, color.alpha)
+
+				renderer.setClearColor(color)
 			}
 		}
 	}
@@ -70,16 +72,14 @@ class Game
 		window.windowDelegate = WindowHandler()
 		window.mouseDelegate = MouseHandler()
 
-		GL.createCapabilities()
-
-		val color = Color.CORNFLOWER_BLUE
-		GL11.glClearColor(color.red, color.green, color.blue, color.alpha)
+		renderer = GLRenderer.getInstance() ?: throw RuntimeException ("Failed to create OpenGL Renderer")
+		renderer.setClearColor(Color.CORNFLOWER_BLUE)
 
 		while (running and !window.shouldClose)
 		{
 			window.preRender()
 
-			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
+			renderer.render()
 
 			window.postRender()
 		}
