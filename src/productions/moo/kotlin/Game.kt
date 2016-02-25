@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11
 
 class Game
 {
-	lateinit var window: Window
+	val window: Window
 	var running = true
 
 	val colors = listOf(Color.CORNFLOWER_BLUE, Color.RED, Color.GREEN, Color.BLUE)
