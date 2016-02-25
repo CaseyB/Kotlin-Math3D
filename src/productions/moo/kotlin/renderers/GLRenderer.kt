@@ -3,6 +3,7 @@ package productions.moo.kotlin.renderers
 import org.lwjgl.opengl.GL
 import productions.moo.kotlin.Color
 import productions.moo.kotlin.Renderable
+import productions.moo.kotlin.models.Mesh
 
 abstract class GLRenderer: Renderable
 {
@@ -23,4 +24,5 @@ abstract class GLRenderer: Renderable
 	}
 
 	abstract fun setClearColor(color: Color)
+	abstract fun addMesh(mesh: Mesh);
 }

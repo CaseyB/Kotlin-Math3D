@@ -1,6 +1,7 @@
 package productions.moo.kotlin
 
 import org.lwjgl.glfw.GLFW
+import productions.moo.kotlin.models.UNIT_PLANE
 import productions.moo.kotlin.renderers.GLRenderer
 
 class Game
@@ -74,6 +75,10 @@ class Game
 
 		renderer = GLRenderer.getInstance() ?: throw RuntimeException ("Failed to create OpenGL Renderer")
 		renderer.setClearColor(Color.CORNFLOWER_BLUE)
+
+		val plane = UNIT_PLANE
+		plane.vertexColors = arrayOf(Color.RED, Color.BLUE, Color.GREEN, Color.WHITE)
+		renderer.addMesh(plane)
 
 		while (running and !window.shouldClose)
 		{
