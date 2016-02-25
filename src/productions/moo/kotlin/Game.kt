@@ -1,7 +1,9 @@
 package productions.moo.kotlin
 
 import org.lwjgl.glfw.GLFW
+import productions.moo.kotlin.math3d.Vector3
 import productions.moo.kotlin.models.UNIT_PLANE
+import productions.moo.kotlin.models.UNIT_TRIANLGE
 import productions.moo.kotlin.renderers.GLRenderer
 
 class Game
@@ -78,7 +80,12 @@ class Game
 
 		val plane = UNIT_PLANE
 		plane.vertexColors = arrayOf(Color.RED, Color.BLUE, Color.GREEN, Color.WHITE)
+		plane.position = Vector3(-0.5f, 0.0f, 0.0f)
 		renderer.addMesh(plane)
+
+		val triangle = UNIT_TRIANLGE
+		triangle.position = Vector3(0.5f, 0.0f, 0.0f)
+		renderer.addMesh(triangle)
 
 		while (running and !window.shouldClose)
 		{

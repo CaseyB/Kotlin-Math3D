@@ -6,6 +6,7 @@ import productions.moo.kotlin.math3d.Vector3
 
 class Mesh(var verticies: Array<Vector3>? = null, var indicies: Array<Int>? = null, var vertexColors: Array<Color>? = null, var textureCoords: Array<Vector2>? = null)
 {
+	var position = Vector3.ZERO
 }
 
 val UNIT_TRIANLGE = Mesh(
