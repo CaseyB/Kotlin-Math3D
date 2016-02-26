@@ -22,7 +22,6 @@ class GL11Renderer : GLRenderer()
 
 	override fun resize(width: Int, height: Int)
 	{
-		// TODO: I don't really understand why the pyramid isn't in the middle
 		val near = 0.1
 		val far = 100.0
 
