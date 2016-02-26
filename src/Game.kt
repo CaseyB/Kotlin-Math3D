@@ -95,7 +95,7 @@ class Game
 
 	init
 	{
-		window = Window("Woot", 300, 300)
+		window = Window("Woot", 800, 800)
 		window.windowDelegate = WindowHandler()
 		window.keyDelegate = KeyHandler()
 		window.mouseDelegate = MouseHandler()
