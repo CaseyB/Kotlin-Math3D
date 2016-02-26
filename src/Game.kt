@@ -6,6 +6,7 @@ import productions.moo.kotlin.MouseDelegate
 import productions.moo.kotlin.Node
 import productions.moo.kotlin.Window
 import productions.moo.kotlin.WindowDelegate
+import productions.moo.kotlin.math.Angle
 import productions.moo.kotlin.math3d.Vector3
 import productions.moo.kotlin.models.UNIT_PYRAMID
 import productions.moo.kotlin.renderers.GLRenderer
@@ -19,6 +20,8 @@ class Game
 
 	val colors = listOf(Color.CORNFLOWER_BLUE, Color.RED, Color.GREEN, Color.BLUE)
 	var currentColor = 0
+
+	val middle: Node
 
 	inner class KeyHandler : KeyDelegate
 	{
@@ -48,6 +51,17 @@ class Game
 				val color = colors[currentColor]
 
 				renderer.setClearColor(color)
+			}
+			else if ((key == GLFW.GLFW_KEY_UP || key == GLFW.GLFW_KEY_DOWN) && state == ButtonState.PRESS)
+			{
+				if(key == GLFW.GLFW_KEY_UP)
+				{
+					middle.position.z -= 0.25f
+				}
+				else
+				{
+					middle.position.z += 0.25f
+				}
 			}
 		}
 	}
@@ -90,7 +104,7 @@ class Game
 		renderer.initialize(window.frameBufferSize)
 		renderer.setClearColor(Color.CORNFLOWER_BLUE)
 
-		val middle = Node(Vector3(0f, 0f, -5f))
+		middle = Node(Vector3(0f, 0f, -3f))
 		middle.addMesh(UNIT_PYRAMID)
 
 		val right = Node(Vector3(2f, 0f, 0f))
@@ -103,10 +117,18 @@ class Game
 
 		renderer.rootNode.addChild(middle)
 
+		var rot = Angle()
+
+		// TODO: This loop should be in the renderer and we can have a callback that updates our stuff
 		while (running and !window.shouldClose)
 		{
 			// TODO: Have a list of renderables and just loop through and call their render functions
 			window.preRender()
+
+			rot = Angle(radians = rot.radians + 1f)
+			middle.setRotation(rot, 0f, 1f, 0f)
+			left.setRotation(rot, 1f, 0f, 0f)
+			right.setRotation(rot, -1f, 0f, 0f)
 
 			renderer.render()
 

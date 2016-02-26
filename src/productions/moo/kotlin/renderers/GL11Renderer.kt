@@ -65,6 +65,7 @@ class GL11Renderer : GLRenderer()
 		GL11.glPushMatrix()
 
 		GL11.glTranslatef(node.position.x, node.position.y, node.position.z)
+		GL11.glRotatef(node.rotAmount.radians, node.rotAxis.x, node.rotAxis.y, node.rotAxis.z)
 
 		// Render meshes
 		for (mesh in node.meshes)
