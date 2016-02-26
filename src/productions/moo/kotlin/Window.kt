@@ -8,7 +8,6 @@ import org.lwjgl.glfw.GLFWFramebufferSizeCallback
 import org.lwjgl.glfw.GLFWKeyCallback
 import org.lwjgl.glfw.GLFWMouseButtonCallback
 import org.lwjgl.glfw.GLFWWindowSizeCallback
-import java.nio.IntBuffer
 
 enum class ButtonState
 {
@@ -128,20 +127,6 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 			override fun invoke(window: kotlin.Long, entered: kotlin.Int)
 			{
 				_mouseInWindow = (entered == GLFW.GLFW_TRUE)
-			}
-
-			override fun set(window: kotlin.Long): GLFWCursorEnterCallback?
-			{
-				val callback = super.set(window)
-
-				var bufferWidth = IntBuffer.allocate(8)
-				var bufferHeight = IntBuffer.allocate(8)
-
-				GLFW.glfwGetFramebufferSize(_window, bufferWidth, bufferHeight)
-
-				windowDelegate?.frameBufferSize(bufferWidth.get(), bufferHeight.get())
-
-				return callback
 			}
 		}
 		GLFW.glfwSetCursorEnterCallback(_window, _cursorEnterCallback)
