@@ -4,13 +4,14 @@ import org.lwjgl.opengl.GL11
 import productions.moo.kotlin.Color
 import productions.moo.kotlin.Node
 import productions.moo.kotlin.math.Angle
+import productions.moo.kotlin.math3d.Vector2
 import productions.moo.kotlin.models.Mesh
 
 class GL11Renderer : GLRenderer()
 {
-	override fun initialize(width: Int, height: Int)
+	override fun initialize(frameBufferSize: Vector2)
 	{
-		resize(width, height)
+		resize(frameBufferSize.x.toInt(), frameBufferSize.y.toInt())
 
 		GL11.glShadeModel(GL11.GL_SMOOTH);
 		GL11.glClearDepth(1.0);

@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL
 import productions.moo.kotlin.Color
 import productions.moo.kotlin.Node
 import productions.moo.kotlin.Renderable
+import productions.moo.kotlin.math3d.Vector2
 import productions.moo.kotlin.models.Mesh
 
 abstract class GLRenderer: Renderable
@@ -26,7 +27,7 @@ abstract class GLRenderer: Renderable
 
 	val rootNode = Node()
 
-	abstract fun initialize(width: Int, height: Int)
+	abstract fun initialize(frameBufferSize: Vector2)
 	abstract fun resize(width: Int, height: Int)
 	abstract fun setClearColor(color: Color)
 }

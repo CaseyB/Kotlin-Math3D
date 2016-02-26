@@ -1,5 +1,6 @@
 package productions.moo.kotlin
 
+import org.lwjgl.BufferUtils
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.glfw.GLFWCursorEnterCallback
 import org.lwjgl.glfw.GLFWCursorPosCallback
@@ -8,6 +9,7 @@ import org.lwjgl.glfw.GLFWFramebufferSizeCallback
 import org.lwjgl.glfw.GLFWKeyCallback
 import org.lwjgl.glfw.GLFWMouseButtonCallback
 import org.lwjgl.glfw.GLFWWindowSizeCallback
+import productions.moo.kotlin.math3d.Vector2
 
 enum class ButtonState
 {
@@ -57,6 +59,17 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 
 	val shouldClose: Boolean
 		get() = GLFW.glfwWindowShouldClose(_window) == GLFW.GLFW_TRUE
+
+	val frameBufferSize: Vector2
+		get()
+		{
+			var bufferWidth = BufferUtils.createIntBuffer(4)
+			var bufferHeight = BufferUtils.createIntBuffer(4)
+
+			GLFW.glfwGetFramebufferSize(_window, bufferWidth, bufferHeight)
+
+			return Vector2(bufferWidth.get(0).toFloat(), bufferHeight.get(0).toFloat())
+		}
 
 	private val _errorCallback: GLFWErrorCallback
 
@@ -157,6 +170,7 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 
 		// Get the resolution of the primary monitor
 		val vidmode = GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor())
+
 		// Center our window
 		GLFW.glfwSetWindowPos(_window, (vidmode.width() - width) / 2, (vidmode.height() - height) / 2)
 

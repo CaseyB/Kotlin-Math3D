@@ -87,7 +87,7 @@ class Game
 		window.mouseDelegate = MouseHandler()
 
 		renderer = GLRenderer.getInstance() ?: throw RuntimeException ("Failed to create OpenGL Renderer")
-		renderer.initialize(300, 300)
+		renderer.initialize(window.frameBufferSize)
 		renderer.setClearColor(Color.CORNFLOWER_BLUE)
 
 		val middle = Node(Vector3(0f, 0f, -5f))
