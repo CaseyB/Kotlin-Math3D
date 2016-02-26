@@ -54,9 +54,14 @@ class Game
 
 	inner class WindowHandler : WindowDelegate
 	{
-		override fun resize(width: Int, height: Int)
+		override fun windowSize(width: Int, height: Int)
 		{
-			println("Resize: ($width, $height)")
+//			println("Window Size: ($width, $height)")
+		}
+
+		override fun frameBufferSize(width: Int, height: Int)
+		{
+			println("FrameBuffer Size: ($width, $height)")
 			renderer.resize(width, height)
 		}
 	}
@@ -82,7 +87,7 @@ class Game
 		window.mouseDelegate = MouseHandler()
 
 		renderer = GLRenderer.getInstance() ?: throw RuntimeException ("Failed to create OpenGL Renderer")
-		renderer.initialize(800, 800)
+		renderer.initialize(300, 300)
 		renderer.setClearColor(Color.CORNFLOWER_BLUE)
 
 		val middle = Node(Vector3(0f, 0f, -5f))

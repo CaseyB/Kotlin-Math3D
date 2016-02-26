@@ -4,9 +4,11 @@ import org.lwjgl.glfw.GLFW
 import org.lwjgl.glfw.GLFWCursorEnterCallback
 import org.lwjgl.glfw.GLFWCursorPosCallback
 import org.lwjgl.glfw.GLFWErrorCallback
+import org.lwjgl.glfw.GLFWFramebufferSizeCallback
 import org.lwjgl.glfw.GLFWKeyCallback
 import org.lwjgl.glfw.GLFWMouseButtonCallback
 import org.lwjgl.glfw.GLFWWindowSizeCallback
+import java.nio.IntBuffer
 
 enum class ButtonState
 {
@@ -44,7 +46,8 @@ interface MouseDelegate
 
 interface WindowDelegate
 {
-	fun resize(width: Int, height: Int)
+	fun windowSize(width: Int, height: Int)
+	fun frameBufferSize(width: Int, height: Int)
 }
 
 class Window(var title: String? = null, var width: Int = 800, var height: Int = 600) : Renderable
@@ -65,6 +68,7 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 
 	private var _mouseInWindow = false
 
+	private val _frameBufferSizeCallback: GLFWFramebufferSizeCallback
 	private val _windowSizeCallback: GLFWWindowSizeCallback
 
 	private val _window: Long
@@ -105,16 +109,39 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 				width = newWidth
 				height = newHeight
 
-				windowDelegate?.resize(width, height)
+				windowDelegate?.windowSize(width, height)
 			}
 		}
 		GLFW.glfwSetWindowSizeCallback(_window, _windowSizeCallback)
+
+		_frameBufferSizeCallback = object : GLFWFramebufferSizeCallback()
+		{
+			override fun invoke(window: kotlin.Long, width: kotlin.Int, height: kotlin.Int)
+			{
+				windowDelegate?.frameBufferSize(width, height)
+			}
+		}
+		GLFW.glfwSetFramebufferSizeCallback(_window, _frameBufferSizeCallback)
 
 		_cursorEnterCallback = object : GLFWCursorEnterCallback()
 		{
 			override fun invoke(window: kotlin.Long, entered: kotlin.Int)
 			{
 				_mouseInWindow = (entered == GLFW.GLFW_TRUE)
+			}
+
+			override fun set(window: kotlin.Long): GLFWCursorEnterCallback?
+			{
+				val callback = super.set(window)
+
+				var bufferWidth = IntBuffer.allocate(8)
+				var bufferHeight = IntBuffer.allocate(8)
+
+				GLFW.glfwGetFramebufferSize(_window, bufferWidth, bufferHeight)
+
+				windowDelegate?.frameBufferSize(bufferWidth.get(), bufferHeight.get())
+
+				return callback
 			}
 		}
 		GLFW.glfwSetCursorEnterCallback(_window, _cursorEnterCallback)
