@@ -52,17 +52,6 @@ class Game
 
 				renderer.setClearColor(color)
 			}
-			else if ((key == GLFW.GLFW_KEY_UP || key == GLFW.GLFW_KEY_DOWN) && state == ButtonState.PRESS)
-			{
-				if(key == GLFW.GLFW_KEY_UP)
-				{
-					middle.position.z -= 0.25f
-				}
-				else
-				{
-					middle.position.z += 0.25f
-				}
-			}
 		}
 	}
 

@@ -42,11 +42,6 @@ class GL11Renderer : GLRenderer()
 		GL11.glLoadIdentity();
 	}
 
-	private fun perspective(fovY: Double, aspect: Double, near: Double, far: Double)
-	{
-
-	}
-
 	override fun setClearColor(color: Color)
 	{
 		GL11.glClearColor(color.red, color.green, color.blue, color.alpha)
