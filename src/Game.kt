@@ -104,16 +104,19 @@ class Game
 		renderer.initialize(window.frameBufferSize)
 		renderer.setClearColor(Color.CORNFLOWER_BLUE)
 
-		middle = Node(Vector3(0f, 0f, -3f))
+		middle = Node()
+		middle.setPosition(Vector3(0f, 0f, -3f))
 		middle.addMesh(UNIT_PYRAMID)
 
-		val right = Node(Vector3(2f, 0f, 0f))
-		right.addMesh(UNIT_PYRAMID)
-		middle.addChild(right)
+//		val right = Node()
+//		right.setPosition(Vector3(2f, 0f, 0f))
+//		right.addMesh(UNIT_PYRAMID)
+//		middle.addChild(right)
 
-		val left = Node(Vector3(-2f, 0f, 0f))
-		left.addMesh(UNIT_PYRAMID)
-		middle.addChild(left)
+//		val left = Node()
+//		left.setPosition(Vector3(-2f, 0f, 0f))
+//		left.addMesh(UNIT_PYRAMID)
+//		middle.addChild(left)
 
 		renderer.rootNode.addChild(middle)
 
@@ -127,8 +130,8 @@ class Game
 
 			rot = Angle(radians = rot.radians + 1f)
 			middle.setRotation(rot, 0f, 1f, 0f)
-			left.setRotation(rot, 1f, 0f, 0f)
-			right.setRotation(rot, -1f, 0f, 0f)
+//			left.setRotation(rot, 1f, 0f, 0f)
+//			right.setRotation(rot, -1f, 0f, 0f)
 
 			renderer.render()
 

@@ -56,6 +56,9 @@ class GL11Renderer : GLRenderer()
 	{
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
 
+		GL11.glMatrixMode(GL11.GL_MODELVIEW)
+		GL11.glLoadIdentity()
+
 		// Recursively render root node
 		renderNode(rootNode)
 	}
@@ -64,8 +67,7 @@ class GL11Renderer : GLRenderer()
 	{
 		GL11.glPushMatrix()
 
-		GL11.glTranslatef(node.position.x, node.position.y, node.position.z)
-		GL11.glRotatef(node.rotAmount.radians, node.rotAxis.x, node.rotAxis.y, node.rotAxis.z)
+		GL11.glMultMatrixf(node.matrix._buffer)
 
 		// Render meshes
 		for (mesh in node.meshes)
