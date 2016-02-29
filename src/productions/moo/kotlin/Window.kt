@@ -292,7 +292,7 @@ enum class KeyCode(val windowCode: Int)
 	}
 }
 
-class ModiferKey(val windowCode: Int)
+class ModiferKey()
 {
 	companion object
 	{
