@@ -9,7 +9,7 @@ import productions.moo.kotlin.models.Mesh
 class Node()
 {
 	private var parent: Node? = null
-	internal val matrix = Matrix4.IDENTITY
+	internal val matrix = Matrix4()
 
 	internal val children: MutableSet<Node> = mutableSetOf()
 	internal val meshes: MutableSet<Mesh> = mutableSetOf()

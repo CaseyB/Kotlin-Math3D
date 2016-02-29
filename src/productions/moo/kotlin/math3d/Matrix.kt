@@ -12,6 +12,16 @@ class Matrix4
 {
 	internal val _buffer: FloatBuffer = ByteBuffer.allocateDirect(16 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer()
 
+	constructor()
+	{
+		_buffer.put(floatArrayOf(
+				1f, 0f, 0f, 0f,
+				0f, 1f, 0f, 0f,
+				0f, 0f, 1f, 0f,
+				0f, 0f, 0f, 1f))
+		_buffer.rewind()
+	}
+
 	constructor(m00: Float, m01: Float, m02: Float, m03: Float,
 				m10: Float, m11: Float, m12: Float, m13: Float,
 				m20: Float, m21: Float, m22: Float, m23: Float,
@@ -299,25 +309,4 @@ class Matrix4
 				"| ${_buffer.get(12)} ${_buffer.get(13)} ${_buffer.get(14)} ${_buffer.get(15)} |\n"
 	}
 	// endregion
-
-	companion object
-	{
-		val ZERO = Matrix4 (
-				0f, 0f, 0f, 0f,
-				0f, 0f, 0f, 0f,
-				0f, 0f, 0f, 0f,
-				0f, 0f, 0f, 0f)
-
-		val ZERO_AFFINE = Matrix4 (
-				0f, 0f, 0f, 0f,
-				0f, 0f, 0f, 0f,
-				0f, 0f, 0f, 0f,
-				0f, 0f, 0f, 1f)
-
-		val IDENTITY = Matrix4 (
-				1f, 0f, 0f, 0f,
-				0f, 1f, 0f, 0f,
-				0f, 0f, 1f, 0f,
-				0f, 0f, 0f, 1f)
-	}
 }

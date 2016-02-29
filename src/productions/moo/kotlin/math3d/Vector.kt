@@ -73,18 +73,6 @@ data class Vector3 (var x: Float, var y: Float, var z: Float)
 
     companion object
     {
-        val ZERO = Vector3(0f, 0f, 0f)
-        
-        val UNIT_X = Vector3(1f, 0f, 0f)
-        val UNIT_Y = Vector3(0f, 1f, 0f)
-        val UNIT_Z = Vector3(0f, 0f, 1f)
-        
-        val NEGATIVE_UNIT_X = Vector3(-1f, 0f, 0f)
-        val NEGATIVE_UNIT_Y = Vector3(0f, -1f, 0f)
-        val NEGATIVE_UNIT_Z = Vector3(0f, 0f, -1f)
-        
-        val UNIT_SCALE = Vector3(1f, 1f, 1f)
-
         fun distanceFrom (vectors: Pair<Vector3, Vector3>) = vectors.first.distanceFrom(vectors.second)
         fun distanceSquaredFrom (vectors: Pair<Vector3, Vector3>) = vectors.first.distanceSquaredFrom(vectors.second)
         fun angleFrom (vectors: Pair<Vector3, Vector3>) = vectors.first.angleTo(vectors.second)

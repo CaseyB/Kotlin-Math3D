@@ -97,15 +97,15 @@ class Game
 		middle.setPosition(Vector3(0f, 0f, -3f))
 		middle.addMesh(UNIT_PYRAMID)
 
-//		val right = Node()
-//		right.setPosition(Vector3(2f, 0f, 0f))
-//		right.addMesh(UNIT_PYRAMID)
-//		middle.addChild(right)
+		val right = Node()
+		right.setPosition(Vector3(2f, 0f, 0f))
+		right.addMesh(UNIT_PYRAMID)
+		middle.addChild(right)
 
-//		val left = Node()
-//		left.setPosition(Vector3(-2f, 0f, 0f))
-//		left.addMesh(UNIT_PYRAMID)
-//		middle.addChild(left)
+		val left = Node()
+		left.setPosition(Vector3(-2f, 0f, 0f))
+		left.addMesh(UNIT_PYRAMID)
+		middle.addChild(left)
 
 		renderer.rootNode.addChild(middle)
 
@@ -117,10 +117,10 @@ class Game
 			// TODO: Have a list of renderables and just loop through and call their render functions
 			window.preRender()
 
-			rot = Angle(radians = rot.radians + 1f)
+			rot = Angle(radians = rot.radians + 0.01f)
 			middle.setRotation(rot, 0f, 1f, 0f)
-//			left.setRotation(rot, 1f, 0f, 0f)
-//			right.setRotation(rot, -1f, 0f, 0f)
+			left.setRotation(rot, 1f, 0f, 0f)
+			right.setRotation(rot, -1f, 0f, 0f)
 
 			renderer.render()
 
