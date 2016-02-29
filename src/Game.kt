@@ -2,6 +2,7 @@ import productions.moo.kotlin.ButtonState
 import productions.moo.kotlin.Color
 import productions.moo.kotlin.KeyCode
 import productions.moo.kotlin.KeyDelegate
+import productions.moo.kotlin.ModiferKey
 import productions.moo.kotlin.MouseDelegate
 import productions.moo.kotlin.Node
 import productions.moo.kotlin.Window
@@ -27,29 +28,32 @@ class Game
 	{
 		override fun keyEvent(key: KeyCode, scanCode: Int, state: ButtonState, mods: Int)
 		{
-			if (key == KeyCode.ESCAPE && state == ButtonState.RELEASE)
+			if((mods and ModiferKey.SHIFT) != 0)
 			{
-				running = false
-			}
-			else if ((key == KeyCode.LEFT || key == KeyCode.RIGHT) && state == ButtonState.PRESS)
-			{
-				if (key == KeyCode.LEFT)
+				if (key == KeyCode.ESCAPE && state == ButtonState.RELEASE)
 				{
-					currentColor--
+					running = false
 				}
-				else
+				else if ((key == KeyCode.LEFT || key == KeyCode.RIGHT) && state == ButtonState.PRESS)
 				{
-					currentColor++
-				}
+					if (key == KeyCode.LEFT)
+					{
+						currentColor--
+					}
+					else
+					{
+						currentColor++
+					}
 
-				currentColor = (currentColor % colors.size)
-				if (currentColor < 0)
-				{
-					currentColor = 3
-				}
-				val color = colors[currentColor]
+					currentColor = (currentColor % colors.size)
+					if (currentColor < 0)
+					{
+						currentColor = 3
+					}
+					val color = colors[currentColor]
 
-				renderer.setClearColor(color)
+					renderer.setClearColor(color)
+				}
 			}
 		}
 	}

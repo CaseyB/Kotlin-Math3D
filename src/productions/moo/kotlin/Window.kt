@@ -292,6 +292,17 @@ enum class KeyCode(val windowCode: Int)
 	}
 }
 
+class ModiferKey(val windowCode: Int)
+{
+	companion object
+	{
+		val SHIFT = 1
+		val CONTROL = 2
+		val ALT = 4
+		val SUPER = 8
+	}
+}
+
 interface KeyDelegate
 {
 	fun keyEvent(key: KeyCode, scanCode: Int, state: ButtonState, mods: Int)
