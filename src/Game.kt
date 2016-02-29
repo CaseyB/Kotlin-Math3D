@@ -1,6 +1,6 @@
-import org.lwjgl.glfw.GLFW
 import productions.moo.kotlin.ButtonState
 import productions.moo.kotlin.Color
+import productions.moo.kotlin.KeyCode
 import productions.moo.kotlin.KeyDelegate
 import productions.moo.kotlin.MouseDelegate
 import productions.moo.kotlin.Node
@@ -25,16 +25,15 @@ class Game
 
 	inner class KeyHandler : KeyDelegate
 	{
-		override fun keyEvent(key: Int, scanCode: Int, state: ButtonState, mods: Int)
+		override fun keyEvent(key: KeyCode, scanCode: Int, state: ButtonState, mods: Int)
 		{
-			// TODO: Abstract out key codes
-			if (key == GLFW.GLFW_KEY_ESCAPE && state == ButtonState.RELEASE)
+			if (key == KeyCode.ESCAPE && state == ButtonState.RELEASE)
 			{
 				running = false
 			}
-			else if ((key == GLFW.GLFW_KEY_LEFT || key == GLFW.GLFW_KEY_RIGHT) && state == ButtonState.PRESS)
+			else if ((key == KeyCode.LEFT || key == KeyCode.RIGHT) && state == ButtonState.PRESS)
 			{
-				if (key == GLFW.GLFW_KEY_LEFT)
+				if (key == KeyCode.LEFT)
 				{
 					currentColor--
 				}
