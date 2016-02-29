@@ -15,279 +15,328 @@ enum class ButtonState
 {
 	PRESS,
 	RELEASE,
-	REPEAT;
+	REPEAT,
+	UNSET;
 
 	companion object
 	{
 		internal fun fromAction(action: Int): ButtonState
 		{
-			var state: ButtonState = PRESS
 			when (action)
 			{
-				GLFW.GLFW_PRESS   -> state = PRESS
-				GLFW.GLFW_RELEASE -> state = RELEASE
-				GLFW.GLFW_REPEAT  -> state = REPEAT
+				GLFW.GLFW_PRESS   -> return PRESS
+				GLFW.GLFW_RELEASE -> return RELEASE
+				GLFW.GLFW_REPEAT  -> return REPEAT
+				else              -> return UNSET
 			}
-
-			return state
 		}
 	}
 }
 
-enum class KeyCode(val windowCode: Int)
+enum class MouseButtonEvent(val windowCode: Int)
 {
 	UNKNOWN(-1),
-	SPACE(32),
-	APOSTROPHE(39),
-	COMMA(44),
-	MINUS(45),
-	PERIOD(46),
-	SLASH(47),
-	ZERO(48),
-	ONE(49),
-	TWO(50),
-	THREE(51),
-	FOUR(52),
-	FIVE(53),
-	SIX(54),
-	SEVEN(55),
-	EIGHT(56),
-	NINE(57),
-	SEMICOLON(59),
-	EQUAL(61),
-	A(65),
-	B(66),
-	C(67),
-	D(68),
-	E(69),
-	F(70),
-	G(71),
-	H(72),
-	I(73),
-	J(74),
-	K(75),
-	L(76),
-	M(77),
-	N(78),
-	O(79),
-	P(80),
-	Q(81),
-	R(82),
-	S(83),
-	T(84),
-	U(85),
-	V(86),
-	W(87),
-	X(88),
-	Y(89),
-	Z(90),
-	LEFT_BRACKET(91),
-	BACKSLASH(92),
-	RIGHT_BRACKET(93),
-	GRAVE_ACCENT(96),
-	WORLD_1(161),
-	WORLD_2(162),
-	ESCAPE(256),
-	ENTER(257),
-	TAB(258),
-	BACKSPACE(259),
-	INSERT(260),
-	DELETE(261),
-	RIGHT(262),
-	LEFT(263),
-	DOWN(264),
-	UP(265),
-	PAGE_UP(266),
-	PAGE_DOWN(267),
-	HOME(268),
-	END(269),
-	CAPS_LOCK(280),
-	SCROLL_LOCK(281),
-	NUM_LOCK(282),
-	PRINT_SCREEN(283),
-	PAUSE(284),
-	F1(290),
-	F2(291),
-	F3(292),
-	F4(293),
-	F5(294),
-	F6(295),
-	F7(296),
-	F8(297),
-	F9(298),
-	F10(299),
-	F11(300),
-	F12(301),
-	F13(302),
-	F14(303),
-	F15(304),
-	F16(305),
-	F17(306),
-	F18(307),
-	F19(308),
-	F20(309),
-	F21(310),
-	F22(311),
-	F23(312),
-	F24(313),
-	F25(314),
-	KP_0(320),
-	KP_1(321),
-	KP_2(322),
-	KP_3(323),
-	KP_4(324),
-	KP_5(325),
-	KP_6(326),
-	KP_7(327),
-	KP_8(328),
-	KP_9(329),
-	KP_DECIMAL(330),
-	KP_DIVIDE(331),
-	KP_MULTIPLY(332),
-	KP_SUBTRACT(333),
-	KP_ADD(334),
-	KP_ENTER(335),
-	KP_EQUAL(336),
-	LEFT_SHIFT(340),
-	LEFT_CONTROL(341),
-	LEFT_ALT(342),
-	LEFT_SUPER(343),
-	RIGHT_SHIFT(344),
-	RIGHT_CONTROL(345),
-	RIGHT_ALT(346),
-	RIGHT_SUPER(347),
-	MENU(348),
-	LAST(348);
+	BUTTON_1(GLFW.GLFW_MOUSE_BUTTON_1),
+	BUTTON_2(GLFW.GLFW_MOUSE_BUTTON_2),
+	BUTTON_3(GLFW.GLFW_MOUSE_BUTTON_3),
+	BUTTON_4(GLFW.GLFW_MOUSE_BUTTON_4),
+	BUTTON_5(GLFW.GLFW_MOUSE_BUTTON_5),
+	BUTTON_6(GLFW.GLFW_MOUSE_BUTTON_6),
+	BUTTON_7(GLFW.GLFW_MOUSE_BUTTON_7),
+	BUTTON_8(GLFW.GLFW_MOUSE_BUTTON_8),
+	LEFT(GLFW.GLFW_MOUSE_BUTTON_LEFT),
+	RIGHT(GLFW.GLFW_MOUSE_BUTTON_RIGHT),
+	MIDDLE(GLFW.GLFW_MOUSE_BUTTON_MIDDLE);
+
+	var state = ButtonState.UNSET
 
 	companion object
 	{
-		internal fun fromWindowCode(keyCode: Int): KeyCode
+		internal fun fromWindowCode(buttonCode: Int, action: Int): MouseButtonEvent
 		{
+			var event: MouseButtonEvent
+			when (buttonCode)
+			{
+				LEFT.windowCode     -> event = LEFT
+				RIGHT.windowCode    -> event = RIGHT
+				MIDDLE.windowCode   -> event = MIDDLE
+				BUTTON_1.windowCode -> event = BUTTON_1
+				BUTTON_2.windowCode -> event = BUTTON_2
+				BUTTON_3.windowCode -> event = BUTTON_3
+				BUTTON_4.windowCode -> event = BUTTON_4
+				BUTTON_5.windowCode -> event = BUTTON_5
+				BUTTON_6.windowCode -> event = BUTTON_6
+				BUTTON_7.windowCode -> event = BUTTON_7
+				BUTTON_8.windowCode -> event = BUTTON_8
+				else                -> event = UNKNOWN
+			}
+
+			event.state = ButtonState.fromAction(action)
+			return event
+		}
+	}
+}
+
+enum class KeyEvent(val windowCode: Int)
+{
+	UNKNOWN(GLFW.GLFW_KEY_UNKNOWN),
+	SPACE(GLFW.GLFW_KEY_SPACE),
+	APOSTROPHE(GLFW.GLFW_KEY_APOSTROPHE),
+	COMMA(GLFW.GLFW_KEY_COMMA),
+	MINUS(GLFW.GLFW_KEY_MINUS),
+	PERIOD(GLFW.GLFW_KEY_PERIOD),
+	SLASH(GLFW.GLFW_KEY_SLASH),
+	KEY_0(GLFW.GLFW_KEY_0),
+	KEY_1(GLFW.GLFW_KEY_1),
+	KEY_2(GLFW.GLFW_KEY_2),
+	KEY_3(GLFW.GLFW_KEY_3),
+	KEY_4(GLFW.GLFW_KEY_4),
+	KEY_5(GLFW.GLFW_KEY_5),
+	KEY_6(GLFW.GLFW_KEY_6),
+	KEY_7(GLFW.GLFW_KEY_7),
+	KEY_8(GLFW.GLFW_KEY_8),
+	KEY_9(GLFW.GLFW_KEY_9),
+	SEMICOLON(GLFW.GLFW_KEY_SEMICOLON),
+	EQUAL(GLFW.GLFW_KEY_EQUAL),
+	A(GLFW.GLFW_KEY_A),
+	B(GLFW.GLFW_KEY_B),
+	C(GLFW.GLFW_KEY_C),
+	D(GLFW.GLFW_KEY_D),
+	E(GLFW.GLFW_KEY_E),
+	F(GLFW.GLFW_KEY_F),
+	G(GLFW.GLFW_KEY_G),
+	H(GLFW.GLFW_KEY_H),
+	I(GLFW.GLFW_KEY_I),
+	J(GLFW.GLFW_KEY_J),
+	K(GLFW.GLFW_KEY_K),
+	L(GLFW.GLFW_KEY_L),
+	M(GLFW.GLFW_KEY_M),
+	N(GLFW.GLFW_KEY_N),
+	O(GLFW.GLFW_KEY_O),
+	P(GLFW.GLFW_KEY_P),
+	Q(GLFW.GLFW_KEY_Q),
+	R(GLFW.GLFW_KEY_R),
+	S(GLFW.GLFW_KEY_S),
+	T(GLFW.GLFW_KEY_T),
+	U(GLFW.GLFW_KEY_U),
+	V(GLFW.GLFW_KEY_V),
+	W(GLFW.GLFW_KEY_W),
+	X(GLFW.GLFW_KEY_X),
+	Y(GLFW.GLFW_KEY_Y),
+	Z(GLFW.GLFW_KEY_Z),
+	LEFT_BRACKET(GLFW.GLFW_KEY_LEFT_BRACKET),
+	BACKSLASH(GLFW.GLFW_KEY_BACKSLASH),
+	RIGHT_BRACKET(GLFW.GLFW_KEY_RIGHT_BRACKET),
+	GRAVE_ACCENT(GLFW.GLFW_KEY_GRAVE_ACCENT),
+	WORLD_1(GLFW.GLFW_KEY_WORLD_1),
+	WORLD_2(GLFW.GLFW_KEY_WORLD_2),
+	ESCAPE(GLFW.GLFW_KEY_ESCAPE),
+	ENTER(GLFW.GLFW_KEY_ENTER),
+	TAB(GLFW.GLFW_KEY_TAB),
+	BACKSPACE(GLFW.GLFW_KEY_BACKSPACE),
+	INSERT(GLFW.GLFW_KEY_INSERT),
+	DELETE(GLFW.GLFW_KEY_DELETE),
+	RIGHT(GLFW.GLFW_KEY_RIGHT),
+	LEFT(GLFW.GLFW_KEY_LEFT),
+	DOWN(GLFW.GLFW_KEY_DOWN),
+	UP(GLFW.GLFW_KEY_UP),
+	PAGE_UP(GLFW.GLFW_KEY_PAGE_UP),
+	PAGE_DOWN(GLFW.GLFW_KEY_PAGE_DOWN),
+	HOME(GLFW.GLFW_KEY_HOME),
+	END(GLFW.GLFW_KEY_END),
+	CAPS_LOCK(GLFW.GLFW_KEY_CAPS_LOCK),
+	SCROLL_LOCK(GLFW.GLFW_KEY_SCROLL_LOCK),
+	NUM_LOCK(GLFW.GLFW_KEY_NUM_LOCK),
+	PRINT_SCREEN(GLFW.GLFW_KEY_PRINT_SCREEN),
+	PAUSE(GLFW.GLFW_KEY_PAUSE),
+	F1(GLFW.GLFW_KEY_F1),
+	F2(GLFW.GLFW_KEY_F2),
+	F3(GLFW.GLFW_KEY_F3),
+	F4(GLFW.GLFW_KEY_F4),
+	F5(GLFW.GLFW_KEY_F5),
+	F6(GLFW.GLFW_KEY_F6),
+	F7(GLFW.GLFW_KEY_F7),
+	F8(GLFW.GLFW_KEY_F8),
+	F9(GLFW.GLFW_KEY_F9),
+	F10(GLFW.GLFW_KEY_F10),
+	F11(GLFW.GLFW_KEY_F11),
+	F12(GLFW.GLFW_KEY_F12),
+	F13(GLFW.GLFW_KEY_F13),
+	F14(GLFW.GLFW_KEY_F14),
+	F15(GLFW.GLFW_KEY_F15),
+	F16(GLFW.GLFW_KEY_F16),
+	F17(GLFW.GLFW_KEY_F17),
+	F18(GLFW.GLFW_KEY_F18),
+	F19(GLFW.GLFW_KEY_F19),
+	F20(GLFW.GLFW_KEY_F20),
+	F21(GLFW.GLFW_KEY_F21),
+	F22(GLFW.GLFW_KEY_F22),
+	F23(GLFW.GLFW_KEY_F23),
+	F24(GLFW.GLFW_KEY_F24),
+	F25(GLFW.GLFW_KEY_F25),
+	NUMPAD_0(GLFW.GLFW_KEY_KP_0),
+	NUMPAD_1(GLFW.GLFW_KEY_KP_1),
+	NUMPAD_2(GLFW.GLFW_KEY_KP_2),
+	NUMPAD_3(GLFW.GLFW_KEY_KP_3),
+	NUMPAD_4(GLFW.GLFW_KEY_KP_4),
+	NUMPAD_5(GLFW.GLFW_KEY_KP_5),
+	NUMPAD_6(GLFW.GLFW_KEY_KP_6),
+	NUMPAD_7(GLFW.GLFW_KEY_KP_7),
+	NUMPAD_8(GLFW.GLFW_KEY_KP_8),
+	NUMPAD_9(GLFW.GLFW_KEY_KP_9),
+	NUMPAD_DECIMAL(GLFW.GLFW_KEY_KP_DECIMAL),
+	NUMPAD_DIVIDE(GLFW.GLFW_KEY_KP_DIVIDE),
+	NUMPAD_MULTIPLY(GLFW.GLFW_KEY_KP_MULTIPLY),
+	NUMPAD_SUBTRACT(GLFW.GLFW_KEY_KP_SUBTRACT),
+	NUMPAD_ADD(GLFW.GLFW_KEY_KP_ADD),
+	NUMPAD_ENTER(GLFW.GLFW_KEY_KP_ENTER),
+	NUMPAD_EQUAL(GLFW.GLFW_KEY_KP_EQUAL),
+	LEFT_SHIFT(GLFW.GLFW_KEY_LEFT_SHIFT),
+	LEFT_CONTROL(GLFW.GLFW_KEY_LEFT_CONTROL),
+	LEFT_ALT(GLFW.GLFW_KEY_LEFT_ALT),
+	LEFT_SUPER(GLFW.GLFW_KEY_LEFT_SUPER),
+	RIGHT_SHIFT(GLFW.GLFW_KEY_RIGHT_SHIFT),
+	RIGHT_CONTROL(GLFW.GLFW_KEY_RIGHT_CONTROL),
+	RIGHT_ALT(GLFW.GLFW_KEY_RIGHT_ALT),
+	RIGHT_SUPER(GLFW.GLFW_KEY_RIGHT_SUPER),
+	MENU(GLFW.GLFW_KEY_MENU),
+	LAST(GLFW.GLFW_KEY_LAST);
+
+	var state: ButtonState = ButtonState.UNSET
+
+	companion object
+	{
+		internal fun fromWindowCode(keyCode: Int, action: Int): KeyEvent
+		{
+			var event: KeyEvent
 			when(keyCode)
 			{
-				SPACE.windowCode -> return SPACE
-				APOSTROPHE.windowCode -> return APOSTROPHE
-				COMMA.windowCode -> return COMMA
-				MINUS.windowCode -> return MINUS
-				PERIOD.windowCode -> return PERIOD
-				SLASH.windowCode -> return SLASH
-				ZERO.windowCode -> return ZERO
-				ONE.windowCode -> return ONE
-				TWO.windowCode -> return TWO
-				THREE.windowCode -> return THREE
-				FOUR.windowCode -> return FOUR
-				FIVE.windowCode -> return FIVE
-				SIX.windowCode -> return SIX
-				SEVEN.windowCode -> return SEVEN
-				EIGHT.windowCode -> return EIGHT
-				NINE.windowCode -> return NINE
-				SEMICOLON.windowCode -> return SEMICOLON
-				EQUAL.windowCode -> return EQUAL
-				A.windowCode -> return A
-				B.windowCode -> return B
-				C.windowCode -> return C
-				D.windowCode -> return D
-				E.windowCode -> return E
-				F.windowCode -> return F
-				G.windowCode -> return G
-				H.windowCode -> return H
-				I.windowCode -> return I
-				J.windowCode -> return J
-				K.windowCode -> return K
-				L.windowCode -> return L
-				M.windowCode -> return M
-				N.windowCode -> return N
-				O.windowCode -> return O
-				P.windowCode -> return P
-				Q.windowCode -> return Q
-				R.windowCode -> return R
-				S.windowCode -> return S
-				T.windowCode -> return T
-				U.windowCode -> return U
-				V.windowCode -> return V
-				W.windowCode -> return W
-				X.windowCode -> return X
-				Y.windowCode -> return Y
-				Z.windowCode -> return Z
-				LEFT_BRACKET.windowCode -> return LEFT_BRACKET
-				BACKSLASH.windowCode -> return BACKSLASH
-				RIGHT_BRACKET.windowCode -> return RIGHT_BRACKET
-				GRAVE_ACCENT.windowCode -> return GRAVE_ACCENT
-				WORLD_1.windowCode -> return WORLD_1
-				WORLD_2.windowCode -> return WORLD_2
-				ESCAPE.windowCode -> return ESCAPE
-				ENTER.windowCode -> return ENTER
-				TAB.windowCode -> return TAB
-				BACKSPACE.windowCode -> return BACKSPACE
-				INSERT.windowCode -> return INSERT
-				DELETE.windowCode -> return DELETE
-				RIGHT.windowCode -> return RIGHT
-				LEFT.windowCode -> return LEFT
-				DOWN.windowCode -> return DOWN
-				UP.windowCode -> return UP
-				PAGE_UP.windowCode -> return PAGE_UP
-				PAGE_DOWN.windowCode -> return PAGE_DOWN
-				HOME.windowCode -> return HOME
-				END.windowCode -> return END
-				CAPS_LOCK.windowCode -> return CAPS_LOCK
-				SCROLL_LOCK.windowCode -> return SCROLL_LOCK
-				NUM_LOCK.windowCode -> return NUM_LOCK
-				PRINT_SCREEN.windowCode -> return PRINT_SCREEN
-				PAUSE.windowCode -> return PAUSE
-				F1.windowCode -> return F1
-				F2.windowCode -> return F2
-				F3.windowCode -> return F3
-				F4.windowCode -> return F4
-				F5.windowCode -> return F5
-				F6.windowCode -> return F6
-				F7.windowCode -> return F7
-				F8.windowCode -> return F8
-				F9.windowCode -> return F9
-				F10.windowCode -> return F10
-				F11.windowCode -> return F11
-				F12.windowCode -> return F12
-				F13.windowCode -> return F13
-				F14.windowCode -> return F14
-				F15.windowCode -> return F15
-				F16.windowCode -> return F16
-				F17.windowCode -> return F17
-				F18.windowCode -> return F18
-				F19.windowCode -> return F19
-				F20.windowCode -> return F20
-				F21.windowCode -> return F21
-				F22.windowCode -> return F22
-				F23.windowCode -> return F23
-				F24.windowCode -> return F24
-				F25.windowCode -> return F25
-				KP_0.windowCode -> return KP_0
-				KP_1.windowCode -> return KP_1
-				KP_2.windowCode -> return KP_2
-				KP_3.windowCode -> return KP_3
-				KP_4.windowCode -> return KP_4
-				KP_5.windowCode -> return KP_5
-				KP_6.windowCode -> return KP_6
-				KP_7.windowCode -> return KP_7
-				KP_8.windowCode -> return KP_8
-				KP_9.windowCode -> return KP_9
-				KP_DECIMAL.windowCode -> return KP_DECIMAL
-				KP_DIVIDE.windowCode -> return KP_DIVIDE
-				KP_MULTIPLY.windowCode -> return KP_MULTIPLY
-				KP_SUBTRACT.windowCode -> return KP_SUBTRACT
-				KP_ADD.windowCode -> return KP_ADD
-				KP_ENTER.windowCode -> return KP_ENTER
-				KP_EQUAL.windowCode -> return KP_EQUAL
-				LEFT_SHIFT.windowCode -> return LEFT_SHIFT
-				LEFT_CONTROL.windowCode -> return LEFT_CONTROL
-				LEFT_ALT.windowCode -> return LEFT_ALT
-				LEFT_SUPER.windowCode -> return LEFT_SUPER
-				RIGHT_SHIFT.windowCode -> return RIGHT_SHIFT
-				RIGHT_CONTROL.windowCode -> return RIGHT_CONTROL
-				RIGHT_ALT.windowCode -> return RIGHT_ALT
-				RIGHT_SUPER.windowCode -> return RIGHT_SUPER
-				MENU.windowCode -> return MENU
-				LAST.windowCode -> return LAST
-				else -> return UNKNOWN
+				SPACE.windowCode           -> event = SPACE
+				APOSTROPHE.windowCode      -> event = APOSTROPHE
+				COMMA.windowCode           -> event = COMMA
+				MINUS.windowCode           -> event = MINUS
+				PERIOD.windowCode          -> event = PERIOD
+				SLASH.windowCode           -> event = SLASH
+				KEY_0.windowCode           -> event = KEY_0
+				KEY_1.windowCode           -> event = KEY_1
+				KEY_2.windowCode           -> event = KEY_2
+				KEY_3.windowCode           -> event = KEY_3
+				KEY_4.windowCode           -> event = KEY_4
+				KEY_5.windowCode           -> event = KEY_5
+				KEY_6.windowCode           -> event = KEY_6
+				KEY_7.windowCode           -> event = KEY_7
+				KEY_8.windowCode           -> event = KEY_8
+				KEY_9.windowCode           -> event = KEY_9
+				SEMICOLON.windowCode       -> event = SEMICOLON
+				EQUAL.windowCode           -> event = EQUAL
+				A.windowCode               -> event = A
+				B.windowCode               -> event = B
+				C.windowCode               -> event = C
+				D.windowCode               -> event = D
+				E.windowCode               -> event = E
+				F.windowCode               -> event = F
+				G.windowCode               -> event = G
+				H.windowCode               -> event = H
+				I.windowCode               -> event = I
+				J.windowCode               -> event = J
+				K.windowCode               -> event = K
+				L.windowCode               -> event = L
+				M.windowCode               -> event = M
+				N.windowCode               -> event = N
+				O.windowCode               -> event = O
+				P.windowCode               -> event = P
+				Q.windowCode               -> event = Q
+				R.windowCode               -> event = R
+				S.windowCode               -> event = S
+				T.windowCode               -> event = T
+				U.windowCode               -> event = U
+				V.windowCode               -> event = V
+				W.windowCode               -> event = W
+				X.windowCode               -> event = X
+				Y.windowCode               -> event = Y
+				Z.windowCode               -> event = Z
+				LEFT_BRACKET.windowCode    -> event = LEFT_BRACKET
+				BACKSLASH.windowCode       -> event = BACKSLASH
+				RIGHT_BRACKET.windowCode   -> event = RIGHT_BRACKET
+				GRAVE_ACCENT.windowCode    -> event = GRAVE_ACCENT
+				WORLD_1.windowCode         -> event = WORLD_1
+				WORLD_2.windowCode         -> event = WORLD_2
+				ESCAPE.windowCode          -> event = ESCAPE
+				ENTER.windowCode           -> event = ENTER
+				TAB.windowCode             -> event = TAB
+				BACKSPACE.windowCode       -> event = BACKSPACE
+				INSERT.windowCode          -> event = INSERT
+				DELETE.windowCode          -> event = DELETE
+				RIGHT.windowCode           -> event = RIGHT
+				LEFT.windowCode            -> event = LEFT
+				DOWN.windowCode            -> event = DOWN
+				UP.windowCode              -> event = UP
+				PAGE_UP.windowCode         -> event = PAGE_UP
+				PAGE_DOWN.windowCode       -> event = PAGE_DOWN
+				HOME.windowCode            -> event = HOME
+				END.windowCode             -> event = END
+				CAPS_LOCK.windowCode       -> event = CAPS_LOCK
+				SCROLL_LOCK.windowCode     -> event = SCROLL_LOCK
+				NUM_LOCK.windowCode        -> event = NUM_LOCK
+				PRINT_SCREEN.windowCode    -> event = PRINT_SCREEN
+				PAUSE.windowCode           -> event = PAUSE
+				F1.windowCode              -> event = F1
+				F2.windowCode              -> event = F2
+				F3.windowCode              -> event = F3
+				F4.windowCode              -> event = F4
+				F5.windowCode              -> event = F5
+				F6.windowCode              -> event = F6
+				F7.windowCode              -> event = F7
+				F8.windowCode              -> event = F8
+				F9.windowCode              -> event = F9
+				F10.windowCode             -> event = F10
+				F11.windowCode             -> event = F11
+				F12.windowCode             -> event = F12
+				F13.windowCode             -> event = F13
+				F14.windowCode             -> event = F14
+				F15.windowCode             -> event = F15
+				F16.windowCode             -> event = F16
+				F17.windowCode             -> event = F17
+				F18.windowCode             -> event = F18
+				F19.windowCode             -> event = F19
+				F20.windowCode             -> event = F20
+				F21.windowCode             -> event = F21
+				F22.windowCode             -> event = F22
+				F23.windowCode             -> event = F23
+				F24.windowCode             -> event = F24
+				F25.windowCode             -> event = F25
+				NUMPAD_0.windowCode        -> event = NUMPAD_0
+				NUMPAD_1.windowCode        -> event = NUMPAD_1
+				NUMPAD_2.windowCode        -> event = NUMPAD_2
+				NUMPAD_3.windowCode        -> event = NUMPAD_3
+				NUMPAD_4.windowCode        -> event = NUMPAD_4
+				NUMPAD_5.windowCode        -> event = NUMPAD_5
+				NUMPAD_6.windowCode        -> event = NUMPAD_6
+				NUMPAD_7.windowCode        -> event = NUMPAD_7
+				NUMPAD_8.windowCode        -> event = NUMPAD_8
+				NUMPAD_9.windowCode        -> event = NUMPAD_9
+				NUMPAD_DECIMAL.windowCode  -> event = NUMPAD_DECIMAL
+				NUMPAD_DIVIDE.windowCode   -> event = NUMPAD_DIVIDE
+				NUMPAD_MULTIPLY.windowCode -> event = NUMPAD_MULTIPLY
+				NUMPAD_SUBTRACT.windowCode -> event = NUMPAD_SUBTRACT
+				NUMPAD_ADD.windowCode      -> event = NUMPAD_ADD
+				NUMPAD_ENTER.windowCode    -> event = NUMPAD_ENTER
+				NUMPAD_EQUAL.windowCode    -> event = NUMPAD_EQUAL
+				LEFT_SHIFT.windowCode      -> event = LEFT_SHIFT
+				LEFT_CONTROL.windowCode    -> event = LEFT_CONTROL
+				LEFT_ALT.windowCode        -> event = LEFT_ALT
+				LEFT_SUPER.windowCode      -> event = LEFT_SUPER
+				RIGHT_SHIFT.windowCode     -> event = RIGHT_SHIFT
+				RIGHT_CONTROL.windowCode   -> event = RIGHT_CONTROL
+				RIGHT_ALT.windowCode       -> event = RIGHT_ALT
+				RIGHT_SUPER.windowCode     -> event = RIGHT_SUPER
+				MENU.windowCode            -> event = MENU
+				LAST.windowCode            -> event = LAST
+				else                       -> event = UNKNOWN
 			}
+
+			event.state = ButtonState.fromAction(action)
+			return event
 		}
 	}
 }
@@ -305,13 +354,13 @@ class ModiferKey()
 
 interface KeyDelegate
 {
-	fun keyEvent(key: KeyCode, scanCode: Int, state: ButtonState, mods: Int)
+	fun keyEvent(event: KeyEvent, scanCode: Int, mods: Int)
 }
 
 interface MouseDelegate
 {
 	fun positionEvent(x: Float, y: Float)
-	fun buttonEvent(button: Int, state: ButtonState, mods: Int)
+	fun buttonEvent(event: MouseButtonEvent, mods: Int)
 }
 
 interface WindowDelegate
@@ -378,7 +427,7 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 		{
 			override fun invoke(window: kotlin.Long, key: kotlin.Int, scancode: kotlin.Int, action: kotlin.Int, mods: kotlin.Int)
 			{
-				keyDelegate?.keyEvent(KeyCode.fromWindowCode(key), scancode, ButtonState.fromAction(action), mods)
+				keyDelegate?.keyEvent(KeyEvent.fromWindowCode(key, action), scancode, mods)
 			}
 		}
 		GLFW.glfwSetKeyCallback(_window, _keyCallback)
@@ -431,7 +480,7 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 			{
 				if (_mouseInWindow)
 				{
-					mouseDelegate?.buttonEvent(button, ButtonState.fromAction(action), mods)
+					mouseDelegate?.buttonEvent(MouseButtonEvent.fromWindowCode(button, action), mods)
 				}
 			}
 		}

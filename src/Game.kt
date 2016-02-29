@@ -1,8 +1,9 @@
 import productions.moo.kotlin.ButtonState
 import productions.moo.kotlin.Color
-import productions.moo.kotlin.KeyCode
 import productions.moo.kotlin.KeyDelegate
+import productions.moo.kotlin.KeyEvent
 import productions.moo.kotlin.ModiferKey
+import productions.moo.kotlin.MouseButtonEvent
 import productions.moo.kotlin.MouseDelegate
 import productions.moo.kotlin.Node
 import productions.moo.kotlin.Window
@@ -26,17 +27,17 @@ class Game
 
 	inner class KeyHandler : KeyDelegate
 	{
-		override fun keyEvent(key: KeyCode, scanCode: Int, state: ButtonState, mods: Int)
+		override fun keyEvent(event: KeyEvent, scanCode: Int, mods: Int)
 		{
 			if((mods and ModiferKey.SHIFT) != 0)
 			{
-				if (key == KeyCode.ESCAPE && state == ButtonState.RELEASE)
+				if (event == KeyEvent.ESCAPE && event.state == ButtonState.RELEASE)
 				{
 					running = false
 				}
-				else if ((key == KeyCode.LEFT || key == KeyCode.RIGHT) && state == ButtonState.PRESS)
+				else if ((event == KeyEvent.LEFT || event == KeyEvent.RIGHT) && event.state == ButtonState.PRESS)
 				{
-					if (key == KeyCode.LEFT)
+					if (event == KeyEvent.LEFT)
 					{
 						currentColor--
 					}
@@ -79,7 +80,7 @@ class Game
 			//println("Mouse Move ($x, $y)")
 		}
 
-		override fun buttonEvent(button: Int, state: ButtonState, mods: Int)
+		override fun buttonEvent(event: MouseButtonEvent, mods: Int)
 		{
 			//println("Mouse Button: $button, $state, $mods")
 		}
