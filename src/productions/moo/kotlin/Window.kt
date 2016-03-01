@@ -494,6 +494,7 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 
 		// Make the OpenGL context current
 		GLFW.glfwMakeContextCurrent(_window)
+
 		// Enable v-sync
 		GLFW.glfwSwapInterval(1)
 
