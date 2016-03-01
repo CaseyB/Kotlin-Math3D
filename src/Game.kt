@@ -11,12 +11,14 @@ import productions.moo.kotlin.WindowDelegate
 import productions.moo.kotlin.math.Angle
 import productions.moo.kotlin.math3d.Vector3
 import productions.moo.kotlin.models.UNIT_PYRAMID
+import productions.moo.kotlin.renderers.GLModelUtils
 import productions.moo.kotlin.renderers.GLRenderer
 
 class Game
 {
 	val window: Window
 	val renderer: GLRenderer
+	val modelUtils: GLModelUtils
 
 	var running = true
 
@@ -97,18 +99,22 @@ class Game
 		renderer.initialize(window.frameBufferSize)
 		renderer.setClearColor(Color.CORNFLOWER_BLUE)
 
+		modelUtils = renderer.modelUtils
+		val pyramid = UNIT_PYRAMID
+		modelUtils.loadMesh(pyramid)
+
 		middle = Node()
 		middle.setPosition(Vector3(0f, 0f, -3f))
-		middle.addMesh(UNIT_PYRAMID)
+		middle.addMesh(pyramid)
 
 		val right = Node()
 		right.setPosition(Vector3(2f, 0f, 0f))
-		right.addMesh(UNIT_PYRAMID)
+		right.addMesh(pyramid)
 		middle.addChild(right)
 
 		val left = Node()
 		left.setPosition(Vector3(-2f, 0f, 0f))
-		left.addMesh(UNIT_PYRAMID)
+		left.addMesh(pyramid)
 		middle.addChild(left)
 
 		renderer.rootNode.addChild(middle)

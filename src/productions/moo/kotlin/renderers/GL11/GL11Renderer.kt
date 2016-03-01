@@ -1,13 +1,18 @@
-package productions.moo.kotlin.renderers
+package productions.moo.kotlin.renderers.GL11
 
+import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL11
 import productions.moo.kotlin.Color
 import productions.moo.kotlin.Node
 import productions.moo.kotlin.math.Angle
 import productions.moo.kotlin.math3d.Vector2
+import productions.moo.kotlin.renderers.GLModelUtils
+import productions.moo.kotlin.renderers.GLRenderer
 
 class GL11Renderer : GLRenderer()
 {
+	override val modelUtils: GLModelUtils = GL11ModelUtils(GL.getCapabilities())
+
 	override fun initialize(frameBufferSize: Vector2)
 	{
 		resize(frameBufferSize.x.toInt(), frameBufferSize.y.toInt())
@@ -17,6 +22,10 @@ class GL11Renderer : GLRenderer()
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glDepthFunc(GL11.GL_LEQUAL);
 		GL11.glHint(GL11.GL_PERSPECTIVE_CORRECTION_HINT, GL11.GL_NICEST);
+
+		GL11.glEnable(GL11.GL_LIGHT0);
+		GL11.glEnable(GL11.GL_LIGHTING);
+		GL11.glEnable(GL11.GL_COLOR_MATERIAL);
 	}
 
 	override fun resize(width: Int, height: Int)
@@ -65,23 +74,8 @@ class GL11Renderer : GLRenderer()
 		// Render meshes
 		for (mesh in node.meshes)
 		{
-			mesh.indicies?.let {
-				GL11.glBegin(GL11.GL_TRIANGLES)
-
-				for (index in it)
-				{
-					mesh.vertexColors?.let {
-						val color = it[index]
-						GL11.glColor3f(color.red, color.green, color.blue)
-					}
-
-					mesh.verticies?.let {
-						val vec = it[index]
-						GL11.glVertex3f(vec.x, vec.y, vec.z)
-					}
-				}
-
-				GL11.glEnd()
+			mesh.rendererID?.let {
+				GL11.glCallList(mesh.rendererID!!)
 			}
 		}
 
