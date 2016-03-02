@@ -1,11 +1,10 @@
 package productions.moo.kotlin.renderers.GL11
 
 import org.lwjgl.opengl.GL11
-import org.lwjgl.opengl.GLCapabilities
 import productions.moo.kotlin.models.Mesh
 import productions.moo.kotlin.renderers.GLModelUtils
 
-internal class GL11ModelUtils(private val capabilities: GLCapabilities) : GLModelUtils
+internal class GL11ModelUtils() : GLModelUtils
 {
 	override fun loadMesh(mesh: Mesh)
 	{
