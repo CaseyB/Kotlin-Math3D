@@ -2,7 +2,8 @@
 
 package productions.moo.kotlin.math3d
 
-import productions.moo.kotlin.math.*
+import productions.moo.kotlin.math.Angle
+import productions.moo.kotlin.math.clamp
 
 // region Float extensions
 // Override operators to work with Vector3
@@ -36,14 +37,14 @@ data class Vector3 (var x: Float, var y: Float, var z: Float)
 
     val lengthSquared: Float
         get() = x * x + y * y + z * z
-    
+
     fun distanceFrom (other: Vector3) = (this - other).length
     fun distanceSquaredFrom (other: Vector3) = (this - other).lengthSquared
-    
+
     fun normalize (): Float
     {
         val oldLength = length
-        
+
         if (oldLength > 0)
         {
             val lengthInverse = 1.0f / oldLength
@@ -51,10 +52,10 @@ data class Vector3 (var x: Float, var y: Float, var z: Float)
             y *= lengthInverse
             z *= lengthInverse
         }
-        
+
         return oldLength
     }
-    
+
     infix fun dot (other: Vector3) = x * other.x + y * other.y + z * other.z
     infix fun cross (other: Vector3): Vector3
     {

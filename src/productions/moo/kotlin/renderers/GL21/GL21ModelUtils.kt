@@ -1,9 +1,6 @@
 package productions.moo.kotlin.renderers.GL21
 
-import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL15.*
-import org.lwjgl.opengl.GL20.*
-import org.lwjgl.opengl.GL21.*
 import productions.moo.kotlin.models.Mesh
 import productions.moo.kotlin.renderers.GLModelUtils
 import java.nio.ByteBuffer
@@ -77,7 +74,7 @@ class GL21ModelUtils : GLModelUtils
 				// Fill data buffers
 				for ((index, color) in mesh.vertexColors!!.withIndex())
 				{
-					colorBuffer.put( index * 4, color.red)
+					colorBuffer.put(index * 4, color.red)
 					colorBuffer.put((index * 4) + 1, color.green)
 					colorBuffer.put((index * 4) + 2, color.blue)
 					colorBuffer.put((index * 4) + 3, color.alpha)

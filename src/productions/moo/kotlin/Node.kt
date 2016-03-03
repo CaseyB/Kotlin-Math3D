@@ -1,7 +1,6 @@
 package productions.moo.kotlin
 
 import productions.moo.kotlin.math.Angle
-import productions.moo.kotlin.math.clamp
 import productions.moo.kotlin.math3d.Matrix4
 import productions.moo.kotlin.math3d.Vector3
 import productions.moo.kotlin.models.Mesh
