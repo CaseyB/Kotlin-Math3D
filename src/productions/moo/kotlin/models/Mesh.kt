@@ -3,11 +3,17 @@ package productions.moo.kotlin.models
 import productions.moo.kotlin.Color
 import productions.moo.kotlin.math3d.Vector2
 import productions.moo.kotlin.math3d.Vector3
+import java.nio.FloatBuffer
+import java.nio.IntBuffer
 
 // TODO: This constructor is UGLY!
 class Mesh(var verticies: Array<Vector3>? = null, var indicies: Array<Int>? = null, var vertexColors: Array<Color>? = null, var textureCoords: Array<Vector2>? = null)
 {
 	var rendererID: Int? = null
+
+	var vertexBuffer: Int? = null
+	var indexBuffer: Int? = null
+	var colorBuffer: Int? = null
 }
 
 val UNIT_TRIANLGE = Mesh(
