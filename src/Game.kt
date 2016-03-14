@@ -104,16 +104,16 @@ class Game
 		modelUtils.loadMesh(pyramid)
 
 		middle = Node()
-		middle.setPosition(Vector3(0f, 0f, -3f))
+		middle.position = Vector3(0f, 0f, -3f)
 		middle.addMesh(pyramid)
 
 		val right = Node()
-		right.setPosition(Vector3(2f, 0f, 0f))
+		right.position = Vector3(2f, 0f, 0f)
 		right.addMesh(pyramid)
 		middle.addChild(right)
 
 		val left = Node()
-		left.setPosition(Vector3(-2f, 0f, 0f))
+		left.position = Vector3(-2f, 0f, 0f)
 		left.addMesh(pyramid)
 		middle.addChild(left)
 
