@@ -9,6 +9,7 @@ import productions.moo.kotlin.Node
 import productions.moo.kotlin.Window
 import productions.moo.kotlin.WindowDelegate
 import productions.moo.kotlin.math.Angle
+import productions.moo.kotlin.math3d.Vector2
 import productions.moo.kotlin.math3d.Vector3
 import productions.moo.kotlin.models.UNIT_PYRAMID
 import productions.moo.kotlin.renderers.GLModelUtils
@@ -27,6 +28,9 @@ class Game
 
 	val middle: Node
 	val cameraNode: Node
+	val cameraRotX: Angle
+	val cameraRotY: Angle
+	val previousPosition = Vector2(0f, 0f)
 
 	inner class KeyHandler : KeyDelegate
 	{
@@ -113,7 +117,17 @@ class Game
 	{
 		override fun positionEvent(x: Float, y: Float)
 		{
-			//println("Mouse Move ($x, $y)")
+			if (previousPosition != Vector2.ZERO)
+			{
+				val xOffset = previousPosition.x - x;
+				val yOffset = previousPosition.y - y;
+
+				cameraRotX.degrees += (xOffset * 0.1f)
+				cameraRotY.degrees += (yOffset * 0.1f)
+			}
+
+			previousPosition.x = x
+			previousPosition.y = y
 		}
 
 		override fun buttonEvent(event: MouseButtonEvent, mods: Int)
@@ -158,6 +172,8 @@ class Game
 
 		renderer.rootNode.addChild(middle)
 
+		cameraRotX = Angle()
+		cameraRotY = Angle()
 		cameraNode = Node()
 		cameraNode.position = Vector3(0f, 0f, 5f)
 		cameraNode.addCamera(camera)
@@ -171,10 +187,12 @@ class Game
 			// TODO: Have a list of renderables and just loop through and call their render functions
 			window.preRender()
 
-			rot = Angle(radians = rot.radians + 0.01f)
-			middle.setRotation(rot, 0f, 1f, 0f)
-			left.setRotation(rot, 1f, 0f, 0f)
-			right.setRotation(rot, -1f, 0f, 0f)
+			cameraNode.setRotation(cameraRotX, 0f, 1f, 0f)
+
+//			rot = Angle(radians = rot.radians + 0.01f)
+//			middle.setRotation(rot, 0f, 1f, 0f)
+//			left.setRotation(rot, 1f, 0f, 0f)
+//			right.setRotation(rot, -1f, 0f, 0f)
 
 			renderer.render()
 
