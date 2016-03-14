@@ -19,10 +19,14 @@ open class MovableObject
 			matrix.setTranslation(value)
 		}
 
-	val worldPosition: Vector3
+	val worldPosition: Matrix4
 		get()
 		{
-			return position + (parent?.worldPosition ?: Vector3(0f, 0f, 0f))
+			parent?.let {
+				return matrix * it.matrix
+			}
+
+			return matrix
 		}
 
 	fun setRotation(rotation: Angle, x: Float, y: Float, z: Float)

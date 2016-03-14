@@ -26,12 +26,13 @@ class Game
 	var currentColor = 0
 
 	val middle: Node
+	val cameraNode: Node
 
 	inner class KeyHandler : KeyDelegate
 	{
 		override fun keyEvent(event: KeyEvent, scanCode: Int, mods: Int)
 		{
-			if((mods and ModiferKey.SHIFT) != 0)
+			if ((mods and ModiferKey.SHIFT) != 0)
 			{
 				if (event == KeyEvent.ESCAPE && event.state == ButtonState.RELEASE)
 				{
@@ -69,6 +70,28 @@ class Game
 					}
 				}
 			}
+			else if (event.state == ButtonState.PRESS)
+			{
+				var position = cameraNode.position
+
+				if (event == KeyEvent.LEFT)
+				{
+					position.x--
+				}
+				if (event == KeyEvent.RIGHT)
+				{
+					position.x++
+				}
+				if (event == KeyEvent.UP)
+				{
+					position.z--
+				}
+				if (event == KeyEvent.DOWN)
+				{
+					position.z++
+				}
+				cameraNode.position = position
+			}
 		}
 	}
 
@@ -76,7 +99,7 @@ class Game
 	{
 		override fun windowSize(width: Int, height: Int)
 		{
-//			println("Window Size: ($width, $height)")
+			//			println("Window Size: ($width, $height)")
 		}
 
 		override fun frameBufferSize(width: Int, height: Int)
@@ -135,7 +158,7 @@ class Game
 
 		renderer.rootNode.addChild(middle)
 
-		val cameraNode = Node()
+		cameraNode = Node()
 		cameraNode.position = Vector3(0f, 0f, 5f)
 		cameraNode.addCamera(camera)
 		renderer.rootNode.addChild(cameraNode)
