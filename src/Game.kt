@@ -57,6 +57,17 @@ class Game
 
 					renderer.setClearColor(color)
 				}
+				else if ((event == KeyEvent.UP || event == KeyEvent.DOWN))
+				{
+					if (event == KeyEvent.UP)
+					{
+						renderer.getCamera().nearPlane += 0.1f
+					}
+					else
+					{
+						renderer.getCamera().nearPlane -= 0.1f
+					}
+				}
 			}
 		}
 	}
@@ -98,6 +109,11 @@ class Game
 		renderer = GLRenderer.getInstance() ?: throw RuntimeException ("Failed to create OpenGL Renderer")
 		renderer.initialize(window.frameBufferSize)
 		renderer.setClearColor(Color.CORNFLOWER_BLUE)
+
+		val camera = renderer.getCamera()
+		camera.nearPlane = 0.1f
+		camera.farPlane = 100.0f
+		camera.fov = Angle(degrees = 45.0f)
 
 		modelUtils = renderer.modelUtils
 		val pyramid = UNIT_PYRAMID
