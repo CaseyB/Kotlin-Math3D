@@ -15,11 +15,10 @@ class Node() : MovableObject()
 
 	fun addMesh(mob: Mesh)
 	{
-		mob.parent = this
 		meshes.add(mob)
 	}
 
-	fun attachCamera(camera: Camera)
+	fun addCamera(camera: Camera)
 	{
 		camera.parent = this
 	}

@@ -135,6 +135,11 @@ class Game
 
 		renderer.rootNode.addChild(middle)
 
+		val cameraNode = Node()
+		cameraNode.position = Vector3(0f, 0f, 5f)
+		cameraNode.addCamera(camera)
+		renderer.rootNode.addChild(cameraNode)
+
 		var rot = Angle()
 
 		// TODO: This loop should be in the renderer and we can have a callback that updates our stuff
