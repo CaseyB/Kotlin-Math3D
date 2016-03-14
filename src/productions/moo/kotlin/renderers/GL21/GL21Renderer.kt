@@ -28,18 +28,7 @@ class GL21Renderer() : GLRenderer()
 		glEnable(GL_COLOR_MATERIAL);
 	}
 
-	override fun render()
-	{
-		glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
-
-		glMatrixMode(GL_MODELVIEW)
-		glLoadIdentity()
-
-		// Recursively render root node
-		renderNode(rootNode)
-	}
-
-	private fun renderNode(node: Node)
+	override fun renderNode(node: Node)
 	{
 		glPushMatrix()
 		glMultMatrixf(node.matrix._buffer)

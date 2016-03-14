@@ -70,7 +70,6 @@ abstract class GLRenderer : Renderable
 		val fW = fH * aspect
 		GL11.glFrustum(-fW, fW, -fH, fH, camera.nearPlane.toDouble(), camera.farPlane.toDouble());
 
-
 		GL11.glMatrixMode(GL11.GL_MODELVIEW);
 		GL11.glLoadIdentity();
 	}
@@ -91,4 +90,17 @@ abstract class GLRenderer : Renderable
 
 		return cameras.first()
 	}
+
+	override fun render()
+	{
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
+
+		GL11.glMatrixMode(GL11.GL_MODELVIEW)
+		GL11.glLoadIdentity()
+
+		// Recursively render root node
+		renderNode(rootNode)
+	}
+
+	abstract protected fun renderNode(node: Node)
 }
