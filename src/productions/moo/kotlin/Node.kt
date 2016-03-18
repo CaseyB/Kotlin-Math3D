@@ -22,4 +22,9 @@ class Node() : MovableObject()
 	{
 		camera.parent = this
 	}
+
+	fun addLight(light: Light)
+	{
+		light.parent = this
+	}
 }

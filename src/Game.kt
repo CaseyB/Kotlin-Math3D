@@ -179,6 +179,12 @@ class Game
 		cameraNode.addCamera(camera)
 		renderer.rootNode.addChild(cameraNode)
 
+		val light = renderer.createLight()
+		val lightNode = Node()
+		lightNode.position = Vector3(0f, 0f, -1f)
+		lightNode.addLight(light!!)
+		renderer.rootNode.addChild(lightNode)
+
 		var rot = Angle()
 
 		// TODO: This loop should be in the renderer and we can have a callback that updates our stuff
@@ -189,10 +195,10 @@ class Game
 
 			cameraNode.setRotation(cameraRotX, 0f, 1f, 0f)
 
-//			rot = Angle(radians = rot.radians + 0.01f)
+			rot = Angle(radians = rot.radians + 0.01f)
 //			middle.setRotation(rot, 0f, 1f, 0f)
-//			left.setRotation(rot, 1f, 0f, 0f)
-//			right.setRotation(rot, -1f, 0f, 0f)
+			left.setRotation(rot, 1f, 0f, 0f)
+			right.setRotation(rot, -1f, 0f, 0f)
 
 			renderer.render()
 

@@ -1,9 +1,10 @@
 package productions.moo.kotlin.renderers
 
 import org.lwjgl.opengl.GL
-import org.lwjgl.opengl.GL11
+import org.lwjgl.opengl.GL11.*
 import productions.moo.kotlin.Camera
 import productions.moo.kotlin.Color
+import productions.moo.kotlin.Light
 import productions.moo.kotlin.Node
 import productions.moo.kotlin.Renderable
 import productions.moo.kotlin.math3d.Vector2
@@ -12,9 +13,13 @@ import productions.moo.kotlin.renderers.GL21.GL21Renderer
 
 abstract class GLRenderer : Renderable
 {
-	internal var cameras:MutableList<Camera> = mutableListOf()
+	internal var camera: Camera? = null
+	internal var lights: MutableList<Light> = mutableListOf()
+
 	protected var width: Int = 0
 	protected var height: Int = 0
+	
+	protected val maxLights: Int
 
 	companion object
 	{
@@ -36,6 +41,11 @@ abstract class GLRenderer : Renderable
 			}
 		}
 	}
+	
+	protected constructor()
+	{
+		maxLights = glGetInteger(GL_MAX_LIGHTS)
+	}
 
 	abstract val modelUtils: GLModelUtils
 	val rootNode = Node()
@@ -52,56 +62,77 @@ abstract class GLRenderer : Renderable
 		this.width = width
 		this.height = height
 
-		if(cameras.size == 0)
-		{
-			return
+		camera?.let { camera ->
+ 			glViewport(0, 0, width, height);
+
+			glMatrixMode(GL_PROJECTION);
+			glLoadIdentity();
+
+			val aspect = width / height.toDouble()
+
+			val fH = Math.tan(camera.fov.radians.toDouble()) * camera.nearPlane
+			val fW = fH * aspect
+			glFrustum(-fW, fW, -fH, fH, camera.nearPlane.toDouble(), camera.farPlane.toDouble());
+
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
 		}
-
-		val camera = cameras.first()
-
-		GL11.glViewport(0, 0, width, height);
-
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
-
-		val aspect = width / height.toDouble()
-
-		val fH = Math.tan(camera.fov.radians.toDouble()) * camera.nearPlane
-		val fW = fH * aspect
-		GL11.glFrustum(-fW, fW, -fH, fH, camera.nearPlane.toDouble(), camera.farPlane.toDouble());
-
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
-		GL11.glLoadIdentity();
 	}
 
 	fun setClearColor(color: Color)
 	{
-		GL11.glClearColor(color.red, color.green, color.blue, color.alpha)
+		glClearColor(color.red, color.green, color.blue, color.alpha)
 	}
 
 	fun getCamera(): Camera
 	{
-		if (cameras.size == 0)
+		if (camera == null)
 		{
-			cameras.add(Camera(this))
+			camera = Camera(this)
 		}
 
 		updateCamera()
 
-		return cameras.first()
+		return camera!!
+	}
+
+	/**
+	 * Returns a light if it can or null if there aren't enough lights
+	 */
+	fun createLight(): Light?
+	{
+		if(lights.size < maxLights)
+		{
+			val light = Light(this)
+			lights.add(light)
+			return light
+		}
+		else
+		{
+			return null
+		}
 	}
 
 	override fun render()
 	{
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
+		glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
 
-		GL11.glMatrixMode(GL11.GL_MODELVIEW)
-		GL11.glLoadIdentity()
+		glMatrixMode(GL_MODELVIEW)
+		glLoadIdentity()
 
-		GL11.glMultMatrixf(cameras.first().worldPosition.inverse()._buffer)
+		camera?.let { camera ->
+			// Set light position
+			if (lights.size > 0)
+			{
+				val light = lights.first()
+				glLightfv(GL_LIGHT0, GL_POSITION, light.lightPosition)
+			}
 
-		// Recursively render root node
-		renderNode(rootNode)
+			glMultMatrixf(camera.worldPosition.inverse().buffer)
+
+			// Recursively render root node
+			renderNode(rootNode)
+		}
 	}
 
 	abstract protected fun renderNode(node: Node)
