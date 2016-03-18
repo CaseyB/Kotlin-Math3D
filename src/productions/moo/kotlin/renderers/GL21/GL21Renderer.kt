@@ -31,7 +31,7 @@ class GL21Renderer() : GLRenderer()
 	override fun renderNode(node: Node)
 	{
 		glPushMatrix()
-		glMultMatrixf(node.matrix._buffer)
+		glMultMatrixf(node.matrix.buffer)
 
 		// Render meshes
 		for (mesh in node.meshes)
