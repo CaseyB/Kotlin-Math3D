@@ -96,6 +96,13 @@ class Game
 				}
 				cameraNode.position = position
 			}
+			else
+			{
+				if(event == KeyEvent.ESCAPE)
+				{
+					window.captureMouse = !window.captureMouse
+				}
+			}
 		}
 	}
 
@@ -142,6 +149,7 @@ class Game
 		window.windowDelegate = WindowHandler()
 		window.keyDelegate = KeyHandler()
 		window.mouseDelegate = MouseHandler()
+		window.captureMouse = true
 
 		renderer = GLRenderer.getInstance() ?: throw RuntimeException ("Failed to create OpenGL Renderer")
 		renderer.initialize(window.frameBufferSize)

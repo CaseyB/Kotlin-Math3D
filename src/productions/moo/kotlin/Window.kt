@@ -374,6 +374,26 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 	var keyDelegate: KeyDelegate? = null
 	var windowDelegate: WindowDelegate? = null
 	var mouseDelegate: MouseDelegate? = null
+	private var _captureMouse: Boolean? = null
+	var captureMouse: Boolean
+		get()
+		{
+			if(_captureMouse == null)
+			{
+				_captureMouse = GLFW.glfwGetInputMode(_window, GLFW.GLFW_CURSOR) == GLFW.GLFW_CURSOR_DISABLED
+			}
+			return _captureMouse!!
+		}
+		set(value)
+		{
+			if(value)
+			{
+				GLFW.glfwSetCursorPos(_window, width / 2.0, height / 2.0)
+			}
+
+			GLFW.glfwSetInputMode(_window, GLFW.GLFW_CURSOR, if (value) GLFW.GLFW_CURSOR_DISABLED else GLFW.GLFW_CURSOR_NORMAL)
+			_captureMouse = value
+		}
 
 	val shouldClose: Boolean
 		get() = GLFW.glfwWindowShouldClose(_window) == GLFW.GLFW_TRUE
