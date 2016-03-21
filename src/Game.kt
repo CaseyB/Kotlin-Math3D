@@ -37,7 +37,7 @@ class Game
 			{
 				var position = moveNode.position
 
-				if (event == KeyEvent.LEFT  || event == KeyEvent.A)
+				if (event == KeyEvent.LEFT || event == KeyEvent.A)
 				{
 					position.x--
 				}
