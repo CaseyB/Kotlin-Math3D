@@ -98,7 +98,7 @@ abstract class GLRenderer : Renderable
 		GL11.glMatrixMode(GL11.GL_MODELVIEW)
 		GL11.glLoadIdentity()
 
-		GL11.glMultMatrixf(cameras.first().worldPosition.inverse()._buffer)
+		GL11.glMultMatrixf(cameras.first().worldPosition.inverse().buffer)
 
 		// Recursively render root node
 		renderNode(rootNode)

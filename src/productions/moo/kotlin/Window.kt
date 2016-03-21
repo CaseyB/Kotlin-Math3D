@@ -209,7 +209,7 @@ enum class KeyEvent(val windowCode: Int)
 		internal fun fromWindowCode(keyCode: Int, action: Int): KeyEvent
 		{
 			var event: KeyEvent
-			when(keyCode)
+			when (keyCode)
 			{
 				SPACE.windowCode           -> event = SPACE
 				APOSTROPHE.windowCode      -> event = APOSTROPHE
@@ -466,7 +466,7 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 		{
 			override fun invoke(window: kotlin.Long, x: kotlin.Double, y: kotlin.Double)
 			{
-				if (_mouseInWindow)
+				if (_mouseInWindow || captureMouse)
 				{
 					mouseDelegate?.positionEvent(x.toFloat(), y.toFloat())
 				}
@@ -478,7 +478,7 @@ class Window(var title: String? = null, var width: Int = 800, var height: Int = 
 		{
 			override fun invoke(window: kotlin.Long, button: kotlin.Int, action: kotlin.Int, mods: kotlin.Int)
 			{
-				if (_mouseInWindow)
+				if (_mouseInWindow || captureMouse)
 				{
 					mouseDelegate?.buttonEvent(MouseButtonEvent.fromWindowCode(button, action), mods)
 				}
