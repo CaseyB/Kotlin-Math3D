@@ -23,7 +23,7 @@ open class MovableObject
 		get()
 		{
 			parent?.let {
-				return matrix * it.matrix
+				return matrix * it.worldPosition
 			}
 
 			return matrix

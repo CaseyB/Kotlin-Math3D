@@ -23,11 +23,8 @@ class Game
 
 	var running = true
 
-	val colors = listOf(Color.CORNFLOWER_BLUE, Color.RED, Color.GREEN, Color.BLUE)
-	var currentColor = 0
-
 	val middle: Node
-	val cameraNode: Node
+	val moveNode: Node
 	val cameraRotX: Angle
 	val cameraRotY: Angle
 	val previousPosition = Vector2(0f, 0f)
@@ -36,65 +33,35 @@ class Game
 	{
 		override fun keyEvent(event: KeyEvent, scanCode: Int, mods: Int)
 		{
-			if ((mods and ModiferKey.SHIFT) != 0)
+			if (event.state == ButtonState.PRESS)
 			{
-				if (event == KeyEvent.ESCAPE && event.state == ButtonState.RELEASE)
-				{
-					running = false
-				}
-				else if ((event == KeyEvent.LEFT || event == KeyEvent.RIGHT) && event.state == ButtonState.PRESS)
-				{
-					if (event == KeyEvent.LEFT)
-					{
-						currentColor--
-					}
-					else
-					{
-						currentColor++
-					}
+				var position = moveNode.position
 
-					currentColor = (currentColor % colors.size)
-					if (currentColor < 0)
-					{
-						currentColor = 3
-					}
-					val color = colors[currentColor]
-
-					renderer.setClearColor(color)
-				}
-				else if ((event == KeyEvent.UP || event == KeyEvent.DOWN))
-				{
-					if (event == KeyEvent.UP)
-					{
-						renderer.getCamera().nearPlane += 0.1f
-					}
-					else
-					{
-						renderer.getCamera().nearPlane -= 0.1f
-					}
-				}
-			}
-			else if (event.state == ButtonState.PRESS)
-			{
-				var position = cameraNode.position
-
-				if (event == KeyEvent.LEFT)
+				if (event == KeyEvent.LEFT || event == KeyEvent.A)
 				{
 					position.x--
 				}
-				if (event == KeyEvent.RIGHT)
+				if (event == KeyEvent.RIGHT || event == KeyEvent.D)
 				{
 					position.x++
 				}
-				if (event == KeyEvent.UP)
+				if (event == KeyEvent.UP || event == KeyEvent.W)
 				{
 					position.z--
 				}
-				if (event == KeyEvent.DOWN)
+				if (event == KeyEvent.DOWN || event == KeyEvent.S)
 				{
 					position.z++
 				}
-				cameraNode.position = position
+
+				moveNode.position = position
+			}
+			else
+			{
+				if(event == KeyEvent.ESCAPE)
+				{
+					window.captureMouse = !window.captureMouse
+				}
 			}
 		}
 	}
@@ -103,7 +70,7 @@ class Game
 	{
 		override fun windowSize(width: Int, height: Int)
 		{
-			//			println("Window Size: ($width, $height)")
+			// Nothing to do here
 		}
 
 		override fun frameBufferSize(width: Int, height: Int)
@@ -132,7 +99,7 @@ class Game
 
 		override fun buttonEvent(event: MouseButtonEvent, mods: Int)
 		{
-			//println("Mouse Button: $button, $state, $mods")
+			// Right now we don't care about mouse buttons
 		}
 	}
 
@@ -142,6 +109,7 @@ class Game
 		window.windowDelegate = WindowHandler()
 		window.keyDelegate = KeyHandler()
 		window.mouseDelegate = MouseHandler()
+		window.captureMouse = true
 
 		renderer = GLRenderer.getInstance() ?: throw RuntimeException ("Failed to create OpenGL Renderer")
 		renderer.initialize(window.frameBufferSize)
@@ -174,16 +142,15 @@ class Game
 
 		cameraRotX = Angle()
 		cameraRotY = Angle()
-		cameraNode = Node()
-		cameraNode.position = Vector3(0f, 0f, 5f)
-		cameraNode.addCamera(camera)
-		renderer.rootNode.addChild(cameraNode)
 
-		val light = renderer.createLight()
-		val lightNode = Node()
-		lightNode.position = Vector3(0f, 0f, -1f)
-		lightNode.addLight(light!!)
-		renderer.rootNode.addChild(lightNode)
+		moveNode = Node()
+		moveNode.position = Vector3(0f, 0f, 5f)
+
+		val pitchNode = Node()
+		pitchNode.addCamera(camera)
+		moveNode.addChild(pitchNode)
+
+		renderer.rootNode.addChild(moveNode)
 
 		var rot = Angle()
 
@@ -193,10 +160,11 @@ class Game
 			// TODO: Have a list of renderables and just loop through and call their render functions
 			window.preRender()
 
-			cameraNode.setRotation(cameraRotX, 0f, 1f, 0f)
+			moveNode.setRotation(cameraRotX, 0f, 1f, 0f)
+			pitchNode.setRotation(cameraRotY, 1f, 0f, 0f)
 
 			rot = Angle(radians = rot.radians + 0.01f)
-//			middle.setRotation(rot, 0f, 1f, 0f)
+			middle.setRotation(rot, 0f, 1f, 0f)
 			left.setRotation(rot, 1f, 0f, 0f)
 			right.setRotation(rot, -1f, 0f, 0f)
 
