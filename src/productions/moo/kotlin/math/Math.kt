@@ -37,7 +37,7 @@ class Angle(radians: Float? = null, degrees: Float? = null)
 		get() = radians * RADIANS_TO_DEGREES
 		set(degrees)
 		{
-			radians = DEGREES_TO_RADIANS
+			radians = degrees * DEGREES_TO_RADIANS
 		}
 
 	init

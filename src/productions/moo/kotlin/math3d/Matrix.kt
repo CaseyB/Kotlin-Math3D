@@ -10,16 +10,16 @@ import java.nio.FloatBuffer
  */
 class Matrix4
 {
-	internal val _buffer: FloatBuffer = ByteBuffer.allocateDirect(16 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer()
+	internal val buffer: FloatBuffer = ByteBuffer.allocateDirect(16 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer()
 
 	constructor()
 	{
-		_buffer.put(floatArrayOf(
+		buffer.put(floatArrayOf(
 				1f, 0f, 0f, 0f,
 				0f, 1f, 0f, 0f,
 				0f, 0f, 1f, 0f,
 				0f, 0f, 0f, 1f))
-		_buffer.rewind()
+		buffer.rewind()
 	}
 
 	constructor(m00: Float, m01: Float, m02: Float, m03: Float,
@@ -27,96 +27,96 @@ class Matrix4
 				m20: Float, m21: Float, m22: Float, m23: Float,
 				m30: Float, m31: Float, m32: Float, m33: Float)
 	{
-		_buffer.put(floatArrayOf(
+		buffer.put(floatArrayOf(
 				m00, m01, m02, m03,
 				m10, m11, m12, m13,
 				m20, m21, m22, m23,
 				m30, m31, m32, m33))
-		_buffer.rewind()
+		buffer.rewind()
 	}
 
 	constructor(buffer: FloatBuffer)
 	{
-		_buffer.put(buffer)
-		_buffer.rewind()
+		buffer.put(buffer)
+		buffer.rewind()
 	}
 
-	operator fun get(index: Int) = _buffer.get(index)
-	operator fun get(row: Int, column: Int) = _buffer.get(row * 4 + column)
+	operator fun get(index: Int) = buffer.get(index)
+	operator fun get(row: Int, column: Int) = buffer.get(row * 4 + column)
 
 	// region Matrix Operators
 	operator fun plus(other: Matrix4): Matrix4
 	{
 		return Matrix4(
-				_buffer.get(0) + other._buffer.get(0),
-				_buffer.get(1) + other._buffer.get(1),
-				_buffer.get(2) + other._buffer.get(2),
-				_buffer.get(3) + other._buffer.get(3),
+				buffer.get(0) + other.buffer.get(0),
+				buffer.get(1) + other.buffer.get(1),
+				buffer.get(2) + other.buffer.get(2),
+				buffer.get(3) + other.buffer.get(3),
 
-				_buffer.get(4) + other._buffer.get(4),
-				_buffer.get(5) + other._buffer.get(5),
-				_buffer.get(6) + other._buffer.get(6),
-				_buffer.get(7) + other._buffer.get(7),
+				buffer.get(4) + other.buffer.get(4),
+				buffer.get(5) + other.buffer.get(5),
+				buffer.get(6) + other.buffer.get(6),
+				buffer.get(7) + other.buffer.get(7),
 
-				_buffer.get(8) + other._buffer.get(8),
-				_buffer.get(9) + other._buffer.get(9),
-				_buffer.get(10) + other._buffer.get(10),
-				_buffer.get(11) + other._buffer.get(11),
+				buffer.get(8) + other.buffer.get(8),
+				buffer.get(9) + other.buffer.get(9),
+				buffer.get(10) + other.buffer.get(10),
+				buffer.get(11) + other.buffer.get(11),
 
-				_buffer.get(12) + other._buffer.get(12),
-				_buffer.get(13) + other._buffer.get(13),
-				_buffer.get(14) + other._buffer.get(14),
-				_buffer.get(15) + other._buffer.get(15)
+				buffer.get(12) + other.buffer.get(12),
+				buffer.get(13) + other.buffer.get(13),
+				buffer.get(14) + other.buffer.get(14),
+				buffer.get(15) + other.buffer.get(15)
 		)
 	}
 
 	operator fun minus(other: Matrix4): Matrix4
 	{
 		return Matrix4(
-				_buffer.get(0) - other._buffer.get(0),
-				_buffer.get(1) - other._buffer.get(1),
-				_buffer.get(2) - other._buffer.get(2),
-				_buffer.get(3) - other._buffer.get(3),
+				buffer.get(0) - other.buffer.get(0),
+				buffer.get(1) - other.buffer.get(1),
+				buffer.get(2) - other.buffer.get(2),
+				buffer.get(3) - other.buffer.get(3),
 
-				_buffer.get(4) - other._buffer.get(4),
-				_buffer.get(5) - other._buffer.get(5),
-				_buffer.get(6) - other._buffer.get(6),
-				_buffer.get(7) - other._buffer.get(7),
+				buffer.get(4) - other.buffer.get(4),
+				buffer.get(5) - other.buffer.get(5),
+				buffer.get(6) - other.buffer.get(6),
+				buffer.get(7) - other.buffer.get(7),
 
-				_buffer.get(8) - other._buffer.get(8),
-				_buffer.get(9) - other._buffer.get(9),
-				_buffer.get(10) - other._buffer.get(10),
-				_buffer.get(11) - other._buffer.get(11),
+				buffer.get(8) - other.buffer.get(8),
+				buffer.get(9) - other.buffer.get(9),
+				buffer.get(10) - other.buffer.get(10),
+				buffer.get(11) - other.buffer.get(11),
 
-				_buffer.get(12) - other._buffer.get(12),
-				_buffer.get(13) - other._buffer.get(13),
-				_buffer.get(14) - other._buffer.get(14),
-				_buffer.get(15) - other._buffer.get(15)
+				buffer.get(12) - other.buffer.get(12),
+				buffer.get(13) - other.buffer.get(13),
+				buffer.get(14) - other.buffer.get(14),
+				buffer.get(15) - other.buffer.get(15)
 		)
 	}
 
 	operator fun times(other: Matrix4): Matrix4
 	{
 		return Matrix4(
-				_buffer.get(0) * other._buffer.get(0) + _buffer.get(1) * other._buffer.get(4) + _buffer.get(2) * other._buffer.get(8) + _buffer.get(3) * other._buffer.get(12),
-				_buffer.get(0) * other._buffer.get(1) + _buffer.get(1) * other._buffer.get(5) + _buffer.get(2) * other._buffer.get(9) + _buffer.get(3) * other._buffer.get(13),
-				_buffer.get(0) * other._buffer.get(2) + _buffer.get(1) * other._buffer.get(6) + _buffer.get(2) * other._buffer.get(10) + _buffer.get(3) * other._buffer.get(14),
-				_buffer.get(0) * other._buffer.get(3) + _buffer.get(1) * other._buffer.get(7) + _buffer.get(2) * other._buffer.get(11) + _buffer.get(3) * other._buffer.get(15),
+				buffer.get(0) * other.buffer.get(0) + buffer.get(1) * other.buffer.get(4) + buffer.get(2) * other.buffer.get(8) + buffer.get(3) * other.buffer.get(12),
+				buffer.get(0) * other.buffer.get(1) + buffer.get(1) * other.buffer.get(5) + buffer.get(2) * other.buffer.get(9) + buffer.get(3) * other.buffer.get(13),
+				buffer.get(0) * other.buffer.get(2) + buffer.get(1) * other.buffer.get(6) + buffer.get(2) * other.buffer.get(10) + buffer.get(3) * other.buffer.get(14),
+				buffer.get(0) * other.buffer.get(3) + buffer.get(1) * other.buffer.get(7) + buffer.get(2) * other.buffer.get(11) + buffer.get(3) * other.buffer.get(15),
 
-				_buffer.get(4) * other._buffer.get(0) + _buffer.get(5) * other._buffer.get(4) + _buffer.get(6) * other._buffer.get(8) + _buffer.get(7) * other._buffer.get(12),
-				_buffer.get(4) * other._buffer.get(1) + _buffer.get(5) * other._buffer.get(5) + _buffer.get(6) * other._buffer.get(9) + _buffer.get(7) * other._buffer.get(13),
-				_buffer.get(4) * other._buffer.get(2) + _buffer.get(5) * other._buffer.get(6) + _buffer.get(6) * other._buffer.get(10) + _buffer.get(7) * other._buffer.get(14),
-				_buffer.get(4) * other._buffer.get(3) + _buffer.get(5) * other._buffer.get(7) + _buffer.get(6) * other._buffer.get(11) + _buffer.get(7) * other._buffer.get(15),
+				buffer.get(4) * other.buffer.get(0) + buffer.get(5) * other.buffer.get(4) + buffer.get(6) * other.buffer.get(8) + buffer.get(7) * other.buffer.get(12),
+				buffer.get(4) * other.buffer.get(1) + buffer.get(5) * other.buffer.get(5) + buffer.get(6) * other.buffer.get(9) + buffer.get(7) * other.buffer.get(13),
+				buffer.get(4) * other.buffer.get(2) + buffer.get(5) * other.buffer.get(6) + buffer.get(6) * other.buffer.get(10) + buffer.get(7) * other.buffer.get(14),
+				buffer.get(4) * other.buffer.get(3) + buffer.get(5) * other.buffer.get(7) + buffer.get(6) * other.buffer.get(11) + buffer.get(7) * other.buffer.get(15),
 
-				_buffer.get(8) * other._buffer.get(0) + _buffer.get(9) * other._buffer.get(4) + _buffer.get(10) * other._buffer.get(8) + _buffer.get(11) * other._buffer.get(12),
-				_buffer.get(8) * other._buffer.get(1) + _buffer.get(9) * other._buffer.get(5) + _buffer.get(10) * other._buffer.get(9) + _buffer.get(11) * other._buffer.get(13),
-				_buffer.get(8) * other._buffer.get(2) + _buffer.get(9) * other._buffer.get(6) + _buffer.get(10) * other._buffer.get(10) + _buffer.get(11) * other._buffer.get(14),
-				_buffer.get(8) * other._buffer.get(3) + _buffer.get(9) * other._buffer.get(7) + _buffer.get(10) * other._buffer.get(11) + _buffer.get(11) * other._buffer.get(15),
+				buffer.get(8) * other.buffer.get(0) + buffer.get(9) * other.buffer.get(4) + buffer.get(10) * other.buffer.get(8) + buffer.get(11) * other.buffer.get(12),
+				buffer.get(8) * other.buffer.get(1) + buffer.get(9) * other.buffer.get(5) + buffer.get(10) * other.buffer.get(9) + buffer.get(11) * other.buffer.get(13),
+				buffer.get(8) * other.buffer.get(2) + buffer.get(9) * other.buffer.get(6) + buffer.get(10) * other.buffer.get(10) + buffer.get(11) * other.buffer.get(14),
+				buffer.get(8) * other.buffer.get(3) + buffer.get(9) * other.buffer.get(7) + buffer.get(10) * other.buffer.get(11) + buffer.get(11) * other.buffer.get(15),
 
-				_buffer.get(12) * other._buffer.get(0) + _buffer.get(13) * other._buffer.get(4) + _buffer.get(14) * other._buffer.get(8) + _buffer.get(15) * other._buffer.get(12),
-				_buffer.get(12) * other._buffer.get(1) + _buffer.get(13) * other._buffer.get(5) + _buffer.get(14) * other._buffer.get(9) + _buffer.get(15) * other._buffer.get(13),
-				_buffer.get(12) * other._buffer.get(2) + _buffer.get(13) * other._buffer.get(6) + _buffer.get(14) * other._buffer.get(10) + _buffer.get(15) * other._buffer.get(14),
-				_buffer.get(12) * other._buffer.get(3) + _buffer.get(13) * other._buffer.get(7) + _buffer.get(14) * other._buffer.get(11) + _buffer.get(15) * other._buffer.get(15)
+				buffer.get(12) * other.buffer.get(0) + buffer.get(13) * other.buffer.get(4) + buffer.get(14) * other.buffer.get(8) + buffer.get(15) * other.buffer.get(12),
+				buffer.get(12) * other.buffer.get(1) + buffer.get(13) * other.buffer.get(5) + buffer.get(14) * other.buffer.get(9) + buffer.get(15) * other.buffer.get(13),
+				buffer.get(12) * other.buffer.get(2) + buffer.get(13) * other.buffer.get(6) + buffer.get(14) * other.buffer.get(10) + buffer.get(15) * other.buffer.get(14),
+				buffer.get(12) * other.buffer.get(3) + buffer.get(13) * other.buffer.get(7) + buffer.get(14) * other.buffer.get(11) + buffer.get(15) * other.buffer.get(15)
 		)
 	}
 	// endregion
@@ -124,12 +124,12 @@ class Matrix4
 	// region Vector Operators
 	operator fun times(vector: Vector3): Vector3
 	{
-		val fInvW = 1.0f / (_buffer.get(12) * vector.x + _buffer.get(13) * vector.y + _buffer.get(14) * vector.z + _buffer.get(15))
+		val fInvW = 1.0f / (buffer.get(12) * vector.x + buffer.get(13) * vector.y + buffer.get(14) * vector.z + buffer.get(15))
 
 		return Vector3(
-				( _buffer.get(0) * vector.x + _buffer.get(1) * vector.y + _buffer.get(2) * vector.z + _buffer.get(3) ) * fInvW,
-				( _buffer.get(4) * vector.x + _buffer.get(5) * vector.y + _buffer.get(6) * vector.z + _buffer.get(7) ) * fInvW,
-				( _buffer.get(8) * vector.x + _buffer.get(9) * vector.y + _buffer.get(10) * vector.z + _buffer.get(11) ) * fInvW
+				( buffer.get(0) * vector.x + buffer.get(1) * vector.y + buffer.get(2) * vector.z + buffer.get(3) ) * fInvW,
+				( buffer.get(4) * vector.x + buffer.get(5) * vector.y + buffer.get(6) * vector.z + buffer.get(7) ) * fInvW,
+				( buffer.get(8) * vector.x + buffer.get(9) * vector.y + buffer.get(10) * vector.z + buffer.get(11) ) * fInvW
 		)
 	}
 	// endregion
@@ -137,40 +137,40 @@ class Matrix4
 	// region Matrix Manipulations
 	fun setTranslation(vector: Vector3)
 	{
-		_buffer.put(12, vector.x)
-		_buffer.put(13, vector.y)
-		_buffer.put(14, vector.z)
+		buffer.put(12, vector.x)
+		buffer.put(13, vector.y)
+		buffer.put(14, vector.z)
 	}
 
 	fun translate(vector: Vector3)
 	{
-		_buffer.put(12, _buffer.get(12) + vector.x)
-		_buffer.put(13, _buffer.get(13) + vector.y)
-		_buffer.put(14, _buffer.get(14) + vector.z)
+		buffer.put(12, buffer.get(12) + vector.x)
+		buffer.put(13, buffer.get(13) + vector.y)
+		buffer.put(14, buffer.get(14) + vector.z)
 	}
 
 	fun getTranslation(): Vector3
 	{
-		return Vector3(_buffer.get(12), _buffer.get(13), _buffer.get(14))
+		return Vector3(buffer.get(12), buffer.get(13), buffer.get(14))
 	}
 
 	fun setScale(scale: Vector3)
 	{
-		_buffer.put(0, scale.x)
-		_buffer.put(5, scale.y)
-		_buffer.put(10, scale.z)
+		buffer.put(0, scale.x)
+		buffer.put(5, scale.y)
+		buffer.put(10, scale.z)
 	}
 
 	fun scale(scale: Vector3)
 	{
-		_buffer.put(0, _buffer.get(0) * scale.x)
-		_buffer.put(5, _buffer.get(5) * scale.y)
-		_buffer.put(10, _buffer.get(10) * scale.z)
+		buffer.put(0, buffer.get(0) * scale.x)
+		buffer.put(5, buffer.get(5) * scale.y)
+		buffer.put(10, buffer.get(10) * scale.z)
 	}
 
 	fun getScale(): Vector3
 	{
-		return Vector3(_buffer.get(0), _buffer.get(5), _buffer.get(10))
+		return Vector3(buffer.get(0), buffer.get(5), buffer.get(10))
 	}
 
 	fun setRotation(angle: Angle, axis: Vector3)
@@ -179,47 +179,47 @@ class Matrix4
 		val beta = (angle.radians * axis.y).toDouble()
 		val gamma = (angle.radians * axis.z).toDouble()
 
-		_buffer.put(0, (Math.cos(beta) * Math.cos(gamma)).toFloat())
-		_buffer.put(1, ((Math.cos(gamma) * Math.sin(alpha) * Math.sin(beta)) - (Math.cos(alpha) * Math.sin(gamma))).toFloat())
-		_buffer.put(2, ((Math.cos(alpha) * Math.cos(gamma) * Math.sin(beta)) + (Math.sin(alpha) * Math.sin(gamma))).toFloat())
+		buffer.put(0, (Math.cos(beta) * Math.cos(gamma)).toFloat())
+		buffer.put(1, ((Math.cos(gamma) * Math.sin(alpha) * Math.sin(beta)) - (Math.cos(alpha) * Math.sin(gamma))).toFloat())
+		buffer.put(2, ((Math.cos(alpha) * Math.cos(gamma) * Math.sin(beta)) + (Math.sin(alpha) * Math.sin(gamma))).toFloat())
 
-		_buffer.put(4, (Math.cos(beta) * Math.sin(gamma)).toFloat())
-		_buffer.put(5, ((Math.cos(alpha) * Math.cos(gamma)) + (Math.sin(alpha) * Math.sin(beta) * Math.sin(gamma))).toFloat())
-		_buffer.put(6, -((Math.cos(gamma) * Math.sin(alpha)) + (Math.cos(alpha) * Math.sin(beta) * Math.sin(gamma))).toFloat())
+		buffer.put(4, (Math.cos(beta) * Math.sin(gamma)).toFloat())
+		buffer.put(5, ((Math.cos(alpha) * Math.cos(gamma)) + (Math.sin(alpha) * Math.sin(beta) * Math.sin(gamma))).toFloat())
+		buffer.put(6, -((Math.cos(gamma) * Math.sin(alpha)) + (Math.cos(alpha) * Math.sin(beta) * Math.sin(gamma))).toFloat())
 
-		_buffer.put(8, -(Math.sin(beta)).toFloat())
-		_buffer.put(9, (Math.cos(beta) * Math.sin(alpha)).toFloat())
-		_buffer.put(10, (Math.cos(alpha) * Math.cos(beta)).toFloat())
+		buffer.put(8, -(Math.sin(beta)).toFloat())
+		buffer.put(9, (Math.cos(beta) * Math.sin(alpha)).toFloat())
+		buffer.put(10, (Math.cos(alpha) * Math.cos(beta)).toFloat())
 	}
 
 	fun getForward(): Vector3
 	{
-		return Vector3(_buffer.get(2), _buffer.get(6), _buffer.get(10))
+		return Vector3(buffer.get(2), buffer.get(6), buffer.get(10))
 	}
 
 	fun getRight(): Vector3
 	{
-		return Vector3(_buffer.get(0), _buffer.get(4), _buffer.get(8))
+		return Vector3(buffer.get(0), buffer.get(4), buffer.get(8))
 	}
 
 	fun inverse(): Matrix4
 	{
-		val m00 = _buffer.get(0)
-		val m01 = _buffer.get(1)
-		val m02 = _buffer.get(2)
-		val m03 = _buffer.get(3)
-		val m10 = _buffer.get(4)
-		val m11 = _buffer.get(5)
-		val m12 = _buffer.get(6)
-		val m13 = _buffer.get(7)
-		val m20 = _buffer.get(8)
-		val m21 = _buffer.get(9)
-		val m22 = _buffer.get(10)
-		val m23 = _buffer.get(11)
-		val m30 = _buffer.get(12)
-		val m31 = _buffer.get(13)
-		val m32 = _buffer.get(14)
-		val m33 = _buffer.get(15)
+		val m00 = buffer.get(0)
+		val m01 = buffer.get(1)
+		val m02 = buffer.get(2)
+		val m03 = buffer.get(3)
+		val m10 = buffer.get(4)
+		val m11 = buffer.get(5)
+		val m12 = buffer.get(6)
+		val m13 = buffer.get(7)
+		val m20 = buffer.get(8)
+		val m21 = buffer.get(9)
+		val m22 = buffer.get(10)
+		val m23 = buffer.get(11)
+		val m30 = buffer.get(12)
+		val m31 = buffer.get(13)
+		val m32 = buffer.get(14)
+		val m33 = buffer.get(15)
 
 		var v0 = m20 * m31 - m21 * m30
 		var v1 = m20 * m32 - m22 * m30
@@ -280,33 +280,33 @@ class Matrix4
 	// region Data Functions
 	fun equals(other: Matrix4): Boolean
 	{
-		return _buffer.get(0) == other._buffer.get(0) &&
-				_buffer.get(1) == other._buffer.get(1) &&
-				_buffer.get(2) == other._buffer.get(2) &&
-				_buffer.get(3) == other._buffer.get(3) &&
+		return buffer.get(0) == other.buffer.get(0) &&
+				buffer.get(1) == other.buffer.get(1) &&
+				buffer.get(2) == other.buffer.get(2) &&
+				buffer.get(3) == other.buffer.get(3) &&
 
-				_buffer.get(4) == other._buffer.get(4) &&
-				_buffer.get(5) == other._buffer.get(5) &&
-				_buffer.get(6) == other._buffer.get(6) &&
-				_buffer.get(7) == other._buffer.get(7) &&
+				buffer.get(4) == other.buffer.get(4) &&
+				buffer.get(5) == other.buffer.get(5) &&
+				buffer.get(6) == other.buffer.get(6) &&
+				buffer.get(7) == other.buffer.get(7) &&
 
-				_buffer.get(8) == other._buffer.get(8) &&
-				_buffer.get(9) == other._buffer.get(9) &&
-				_buffer.get(10) == other._buffer.get(10) &&
-				_buffer.get(11) == other._buffer.get(11) &&
+				buffer.get(8) == other.buffer.get(8) &&
+				buffer.get(9) == other.buffer.get(9) &&
+				buffer.get(10) == other.buffer.get(10) &&
+				buffer.get(11) == other.buffer.get(11) &&
 
-				_buffer.get(12) == other._buffer.get(12) &&
-				_buffer.get(13) == other._buffer.get(13) &&
-				_buffer.get(14) == other._buffer.get(14) &&
-				_buffer.get(15) == other._buffer.get(15)
+				buffer.get(12) == other.buffer.get(12) &&
+				buffer.get(13) == other.buffer.get(13) &&
+				buffer.get(14) == other.buffer.get(14) &&
+				buffer.get(15) == other.buffer.get(15)
 	}
 
 	override fun toString(): String
 	{
-		return  "| ${_buffer.get(0)} ${_buffer.get(1)} ${_buffer.get(2)} ${_buffer.get(3)} |\n" +
-				"| ${_buffer.get(4)} ${_buffer.get(5)} ${_buffer.get(6)} ${_buffer.get(7)} |\n" +
-				"| ${_buffer.get(8)} ${_buffer.get(9)} ${_buffer.get(10)} ${_buffer.get(11)} |\n" +
-				"| ${_buffer.get(12)} ${_buffer.get(13)} ${_buffer.get(14)} ${_buffer.get(15)} |\n"
+		return  "| ${buffer.get(0)} ${buffer.get(1)} ${buffer.get(2)} ${buffer.get(3)} |\n" +
+				"| ${buffer.get(4)} ${buffer.get(5)} ${buffer.get(6)} ${buffer.get(7)} |\n" +
+				"| ${buffer.get(8)} ${buffer.get(9)} ${buffer.get(10)} ${buffer.get(11)} |\n" +
+				"| ${buffer.get(12)} ${buffer.get(13)} ${buffer.get(14)} ${buffer.get(15)} |\n"
 	}
 	// endregion
 }
