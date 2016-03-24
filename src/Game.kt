@@ -161,12 +161,12 @@ class Game
 			window.preRender()
 
 			moveNode.setRotation(cameraRotX, 0f, 1f, 0f)
-//			pitchNode.setRotation(cameraRotY, 1f, 0f, 0f)
+			pitchNode.setRotation(cameraRotY, 1f, 0f, 0f)
 
-//			rot = Angle(radians = rot.radians + 0.01f)
-//			middle.setRotation(rot, 0f, 1f, 0f)
-//			left.setRotation(rot, 1f, 0f, 0f)
-//			right.setRotation(rot, -1f, 0f, 0f)
+			rot = Angle(radians = rot.radians + 0.01f)
+			middle.setRotation(rot, 0f, 1f, 0f)
+			left.setRotation(rot, 1f, 0f, 0f)
+			right.setRotation(rot, -1f, 0f, 0f)
 
 			renderer.render()
 
