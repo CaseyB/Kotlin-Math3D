@@ -152,6 +152,13 @@ class Game
 
 		renderer.rootNode.addChild(moveNode)
 
+		val light = renderer.createLight()
+		val lightNode = Node()
+		lightNode.position = Vector3(0f, 0f, 0f)
+		lightNode.addLight(light!!)
+		lightNode.addMesh(UNIT_PYRAMID)
+		renderer.rootNode.addChild(lightNode)
+
 		var rot = Angle()
 
 		// TODO: This loop should be in the renderer and we can have a callback that updates our stuff
@@ -165,8 +172,8 @@ class Game
 
 			rot = Angle(radians = rot.radians + 0.01f)
 			middle.setRotation(rot, 0f, 1f, 0f)
-			left.setRotation(rot, 1f, 0f, 0f)
-			right.setRotation(rot, -1f, 0f, 0f)
+//			left.setRotation(rot, 1f, 0f, 0f)
+//			right.setRotation(rot, -1f, 0f, 0f)
 
 			renderer.render()
 
